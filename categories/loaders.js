@@ -14,7 +14,7 @@ module.exports = {
 			'desc': 'Unload command category.',
 			'func': (channel, categoryName, categories) => {
 				categories[categoryName] = null;
-				channel.send(`Unloaded ${categoryName}.js`);
+				channel.send(util.makeCodeBlock(`Unloaded ${categoryName}.js`));
 				return categories;
 			},
 		},
