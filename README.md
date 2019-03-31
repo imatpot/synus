@@ -1,4 +1,4 @@
-# synus
+# Synus
 The _**s**ystematically **y**ielded, **n**atively **u**nobstrusive **s**idekick_ is a bot designed for Discord.
 
 Written using the [discord.js](https://discord.js.org/#/) library, _synus_ is designed to be easily yet effectively expandable, while also providing a recognizable environment for anyone familiar with JavaScript.
