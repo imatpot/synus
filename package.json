@@ -1,0 +1,31 @@
+{
+  "name": "synus",
+  "version": "1.0.0",
+  "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
+  "main": "synus.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mladenbrankovic/synus.git"
+  },
+  "keywords": [
+    "synus",
+    "discord.js",
+    "discord",
+    "bot",
+    "js",
+    "javascript"
+  ],
+  "author": "@mladenbrankovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mladenbrankovic/synus/issues"
+  },
+  "homepage": "https://github.com/mladenbrankovic/synus#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "npm": "^6.9.0"
+  }
+}
