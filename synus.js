@@ -1,16 +1,18 @@
+require('dotenv').config();
+
 const discord = require('discord.js');
 const client = new discord.Client();
 const loader = require('./categories/loaders.js').commands;
 const util = require('./util.js');
 
-const { discordToken } = require('./config.json');
+const botToken = process.env.botToken;
 
 let categories = {
 	'commands': require('./categories/commands.js').commands,
 	'memes': require('./categories/memes.js').commands,
 };
 
-client.login(discordToken);
+client.login(botToken);
 
 client.once('ready', () => {
 	console.info('Synus ready for usage');
@@ -59,7 +61,7 @@ client.on('message', message => {
 			}
 		}
 
-		// Could be moved to meme.js but I can't be bothered
+		// Could (and probably should) be moved to meme.js but I can't be bothered
 		if (message.content.toLocaleLowerCase() == 'this is so sad') {
 			if (categories.meme != null) {
 				message.channel.send('https://youtu.be/_F-wQVdmuns');
