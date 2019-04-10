@@ -5,9 +5,9 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const echo = require('./commands/utilities/echo.js').execute;
-const echoCode = require('./commands/utilities/print.js').execute;
+const print = require('./commands/utilities/print.js').execute;
 
-const token = process.env.BOT_TOKEN;
+const token = process.env.BOT_TOKEN_DEV;
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 const commandsDirectory = path.resolve('./commands');

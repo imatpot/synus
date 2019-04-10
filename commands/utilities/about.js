@@ -1,5 +1,5 @@
 const echo = require('./echo.js').execute;
-const echoCode = require('./print.js').execute;
+const print = require('./print.js').execute;
 
 module.exports.properties = {
     name: 'about',

@@ -1,7 +1,10 @@
+require('dotenv').config();
+
 const echo = require('./echo.js').execute;
-const echoCode = require('./print.js').execute;
+const print = require('./print.js').execute;
 const fs = require('fs');
 const path = require('path');
+const prefixes = process.env.BOT_PREFIXES.split(',');
 
 module.exports.properties = {
     name: 'help',
@@ -38,17 +41,22 @@ module.exports.execute = (message, args, bot) => {
     });
 
     if (args.length === 0) {
+        let spaces = '';
+        let requiredNameLength = 'Prefixes'.length + 3;
+
         for (let cat in categoryTree) {
-            let output = '';
-            let spaces = '';
-
-            output += cat.toUpperCase() + '\n\n';
-
-            let requiredNameLength = 3;
             categoryTree[cat].forEach((cmd) => {
                 if (cmd.name.length + 3 > requiredNameLength) requiredNameLength = cmd.name.length + 3;
             });
+        }
 
+        for (let i = requiredNameLength; i > 'Prefixes'.length; i--) { spaces += ' '; }
+        print(message, 'Prefixes' + spaces + prefixes.join(', '));
+
+        for (let cat in categoryTree) {
+            let output = '';
+
+            output += cat.toUpperCase() + '\n\n';
             categoryTree[cat].forEach((cmd) => {
                 spaces = '';
                 for (let i = requiredNameLength; i > cmd.name.length; i--) {
@@ -57,7 +65,7 @@ module.exports.execute = (message, args, bot) => {
                 output += cmd.name + spaces + cmd.description + '\n';
             });
 
-            echoCode(message, output);
+            print(message, output);
         }
     }
     else {
@@ -75,7 +83,7 @@ module.exports.execute = (message, args, bot) => {
             });
         }
 
-        if (command === {}) {
+        if (category === '' || command === {}) {
             echo(message, `Command \`${request}\` doesn't exist.`);
             return;
         }
@@ -83,10 +91,9 @@ module.exports.execute = (message, args, bot) => {
         output += command.name + '\n\n';
         output += 'Category:     ' + category.charAt(0).toUpperCase() + category.slice(1) + '\n';
         if (command.aliases.length !== 0) output += 'Aliases:      ' + command.aliases.join(', ') + '\n';
-        output += '\n';
         output += 'Description:  ' + command.description + '\n\n';
         output += 'Usage:        ' + command.usage;
 
-        echoCode(message, output);
+        print(message, output);
     }
 }

@@ -1,5 +1,5 @@
 const echo = require('../utilities/echo.js').execute;
-const echoCode = require('../utilities/print.js').execute;
+const print = require('../utilities/print.js').execute;
 
 module.exports.properties = {
     name: 'meme',
