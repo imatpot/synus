@@ -6,8 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const echo = require('./commands/general/echo.js').execute;
 const print = require('./commands/general/print.js').execute;
+const hello = require('./commands/general/hello.js');
 
-const token = process.env.BOT_TOKEN;
+const token = process.env.BOT_TOKEN_DEV;
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 const commandsDirectory = path.resolve('./commands');
@@ -35,6 +36,9 @@ categories.forEach((category) => {
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
+		hello.getGreetingsNoFlag().forEach((greeting) => {
+			bot.aliases.set(greeting, 'hello');
+		});
 	});
 });
 
@@ -52,7 +56,7 @@ bot.once('ready', () => {
 bot.on('message', (message) => {
 	if (message.author.bot || !prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
 	if (prefixes.includes(message.content.trim())) {
-		echo(message, 'Ready to help! Type `synus help` to get started.');
+		echo('Ready to help! Type `synus help` to get started.', message);
 		return;
 	}
 
@@ -61,15 +65,15 @@ bot.on('message', (message) => {
 	let command = args.shift().toLowerCase();
 
 	if (!bot.commands.has(bot.aliases.get(command)) && !bot.commands.has(command)) {
-		echo(message, `Command \`${command}\` doesn't exist.`);
+		echo(`Command \`${command}\` doesn't exist.`, message);
 		return;
 	}
 	
 	try {
-		if (bot.commands.has(command)) bot.commands.get(command).execute(message, args, bot);
-		else bot.commands.get(bot.aliases.get(command)).execute(message, args, bot);
+		if (bot.commands.has(command)) bot.commands.get(command).execute(args, message, bot);
+		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);
 	} catch (error) {
 		console.error(error);
-		echo(message, `Hm. That didn't work. Try that \`${command}\` again.`);
+		echo(`Hm. That didn't work. Try that \`${command}\` again.`, message);
 	}
 });

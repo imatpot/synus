@@ -9,10 +9,10 @@ module.exports.properties = {
     usage: 'synus meme',
 }
 
-module.exports.execute = (message, args, bot) => {
+module.exports.execute = (args, message, bot) => {
     fetch('https://api.reddit.com/r/memes/new.json?sort=new&limit=1')
         .then(response => response.json())
         .then(response => {
-            echo(message, 'Here\'s the latest meme from r/memes\n' + response.data.children[0].data.url);
+            echo('Here\'s the latest meme from r/memes\n' + response.data.children[0].data.url, message);
         });
 }

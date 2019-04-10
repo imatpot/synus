@@ -7,7 +7,7 @@ module.exports.properties = {
     usage: 'synus print [text]',
 }
 
-module.exports.execute = (message, args, bot) => {
-    if (Array.isArray(args)) echo(message, '```apache\n' + args.join(' ') + '```');
-	else echo(message, '```apache\n' + args + '```');
+module.exports.execute = (args, message, bot) => {
+    if (Array.isArray(args)) echo('```apache\n' + args.join(' ') + '```', message);
+	else echo('```apache\n' + args + '```', message);
 }

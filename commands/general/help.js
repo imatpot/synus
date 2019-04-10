@@ -13,7 +13,7 @@ module.exports.properties = {
     usage: 'synus help',
 }
 
-module.exports.execute = (message, args, bot) => {
+module.exports.execute = (args, message, bot) => {
     let categoryTree = {};
     const commandsDirectory = path.resolve('./commands');
 
@@ -42,7 +42,7 @@ module.exports.execute = (message, args, bot) => {
 
     if (args.length === 0) {
         let spaces = '';
-        let requiredNameLength = 'Prefixes'.length + 3;
+        let requiredNameLength = 'prefixes'.length + 3;
 
         for (let cat in categoryTree) {
             categoryTree[cat].forEach((cmd) => {
@@ -51,7 +51,7 @@ module.exports.execute = (message, args, bot) => {
         }
 
         for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
-        print(message, 'PREFIXES' + spaces + prefixes.join(', '));
+        print('PREFIXES' + spaces + prefixes.join(', '), message);
 
         for (let cat in categoryTree) {
             let output = '';
@@ -65,12 +65,12 @@ module.exports.execute = (message, args, bot) => {
                 output += cmd.name + spaces + cmd.description + '\n';
             });
 
-            print(message, output);
+            print(output, message);
         }
 
         spaces = '';
         for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
-        print(message, 'TIP' + spaces + 'For details, type synus help [command]')
+        print('TIP' + spaces + 'For details, type synus help [command]', message)
     }
     else {
         const request = args.shift();
@@ -88,16 +88,16 @@ module.exports.execute = (message, args, bot) => {
         }
 
         if (category === '' || command === {}) {
-            echo(message, `Command \`${request}\` doesn't exist.`);
+            echo(`Command \`${request}\` doesn't exist.`, message);
             return;
         }
 
-        output += command.name + '\n\n';
+        output += command.name.toUpperCase() + '\n\n';
         output += 'Category:     ' + category.charAt(0).toUpperCase() + category.slice(1) + '\n';
-        if (command.aliases.length !== 0) output += 'Aliases:      ' + command.aliases.join(', ') + '\n';
+        if (command.aliases.length !== 0) output += 'Aliases:      ' + command.aliases.splice(0, 9).join(', ') + '\n';
         output += 'Description:  ' + command.description + '\n\n';
         output += 'Usage:        ' + command.usage;
 
-        print(message, output);
+        print(output, message);
     }
 }
