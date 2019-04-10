@@ -1,12 +1,18 @@
-const echo = require('../utilities/echo.js').execute;
-const echoCode = require('../utilities/echo-code.js').execute;
+const echo = require('../general/echo.js').execute;
+const print = require('../general/print.js').execute;
+const fetch = require('node-fetch');
 
-module.exports.metadata = {
+module.exports.properties = {
     name: 'meme',
-    aliases: ['meem'],
-    description: 'meme',
+    aliases: ['meem', 'r/memes'],
+    description: 'Fetches the latest meme from r/memes',
+    usage: 'synus meme',
 }
 
-module.exports.execute = (message, args, bot) => {
-    message.channel.send('meme');
+module.exports.execute = (args, message, bot) => {
+    fetch('https://api.reddit.com/r/memes/new.json?sort=new&limit=1')
+        .then(response => response.json())
+        .then(response => {
+            echo('Here\'s the latest meme from r/memes\n' + response.data.children[0].data.url, message);
+        });
 }
