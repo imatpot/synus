@@ -1,7 +1,8 @@
-module.exports.metadata = {
+module.exports.properties = {
     name: 'echo',
     aliases: ['e'],
-    description: 'Synus repeats your input.',
+    description: 'Repeats your text.',
+    usage: 'synus echo [text]',
 }
 
 module.exports.execute = (message, args, bot) => {

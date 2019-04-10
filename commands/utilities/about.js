@@ -1,10 +1,11 @@
 const echo = require('./echo.js').execute;
-const echoCode = require('./echo-code.js').execute;
+const echoCode = require('./print.js').execute;
 
-module.exports.metadata = {
+module.exports.properties = {
     name: 'about',
     aliases: ['a'],
-    description: 'Synus introduces himself.',
+    description: 'A small introduction.',
+    usage: 'synus about',
 }
 
 module.exports.execute = (message, args, bot) => {
