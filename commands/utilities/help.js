@@ -67,6 +67,10 @@ module.exports.execute = (message, args, bot) => {
 
             print(message, output);
         }
+
+        spaces = '';
+        for (let i = requiredNameLength; i > 'Tip'.length; i--) { spaces += ' '; }
+        print(message, 'Tip' + spaces + 'For details, type synus help [command]')
     }
     else {
         const request = args.shift();
