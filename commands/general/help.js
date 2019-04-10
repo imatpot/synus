@@ -50,8 +50,8 @@ module.exports.execute = (message, args, bot) => {
             });
         }
 
-        for (let i = requiredNameLength; i > 'Prefixes'.length; i--) { spaces += ' '; }
-        print(message, 'Prefixes' + spaces + prefixes.join(', '));
+        for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
+        print(message, 'PREFIXES' + spaces + prefixes.join(', '));
 
         for (let cat in categoryTree) {
             let output = '';
@@ -69,8 +69,8 @@ module.exports.execute = (message, args, bot) => {
         }
 
         spaces = '';
-        for (let i = requiredNameLength; i > 'Tip'.length; i--) { spaces += ' '; }
-        print(message, 'Tip' + spaces + 'For details, type synus help [command]')
+        for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
+        print(message, 'TIP' + spaces + 'For details, type synus help [command]')
     }
     else {
         const request = args.shift();
