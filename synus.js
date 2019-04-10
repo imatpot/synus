@@ -1,124 +1,75 @@
 require('dotenv').config();
 
-const discord = require('discord.js');
-const client = new discord.Client();
-const loader = require('./categories/loaders.js').commands;
-const util = require('./util.js');
+const Discord = require('discord.js');
 
-const botToken = process.env.botToken;
+const fs = require('fs');
+const path = require('path');
+const echo = require('./commands/utilities/echo.js').execute;
+const echoCode = require('./commands/utilities/echo-code.js').execute;
 
-let categories = {
-	'commands': require('./categories/commands.js').commands,
-	'memes': require('./categories/memes.js').commands,
-};
+const token = process.env.BOT_TOKEN;
+const prefixes = process.env.BOT_PREFIXES.split(',');
 
-client.login(botToken);
+const commandsPath = path.resolve('./commands');
+const bot = new Discord.Client();
 
-client.once('ready', () => {
-	console.info('Synus ready for usage');
-	client.user.setActivity('without anyone noticing', 'https://www.twitch.tv/quonnz');
+bot.login(token);
+bot.commands = new Discord.Collection();
+bot.aliases = new Discord.Collection();
+
+let categories = fs.readdirSync(commandsPath).filter((dir) => {
+	return fs.lstatSync(path.join(commandsPath, dir)).isDirectory();
 });
 
-client.on('message', message => {
-	// Do not check messages by Synus himself
-	if (message.author.id != '561922821043781653') {
-		const commandArray = message.content.split(' ');
-		const messageStart = commandArray.shift();
+categories.forEach((category) => {
+	const categoryPath = path.resolve(path.join(commandsPath, category));
 
-		if (util.isBotPrefix(messageStart)) {
-			const commandName = commandArray.shift().toLocaleLowerCase();
+	const files = fs.readdirSync(categoryPath).filter((file) => {
+		return file.endsWith('.js');
+	});
 
-			// At this point, only possible params are left in commandArray
-
-			if (commandName === 'help') {
-				showHelp(message.channel, commandArray[0]);
-			}
-			else if (commandName === 'load' || commandName === 'unload') {
-				console.log(categories);
-				if (categories.hasOwnProperty(commandArray[0])) {
-					categories = loader[commandName].func(message.channel, commandArray[0], categories);
-				}
-				else {
-					message.channel.send(util.makeCodeBlock(`Category ${commandArray[0]} not found`));
-				}
-			}
-			else {
-				let commandObject = null;
-
-				// c[0] = Category name
-				// c[1] = Category value (require)
-				Object.entries(categories).forEach(c => {
-					if (c[1] != null) {
-						if (c[1][commandName] != null) {
-							commandObject = c[1][commandName];
-						}
-					}
-				});
-
-				commandObject == null ?
-					message.channel.send(util.makeCodeBlock(`Command ${commandName} not found.`)) :
-					commandObject.func(message, commandArray);
-			}
-		}
-
-		// Could (and probably should) be moved to meme.js but I can't be bothered
-		if (message.content.toLocaleLowerCase() == 'this is so sad') {
-			if (categories.meme != null) {
-				message.channel.send('https://youtu.be/_F-wQVdmuns');
-			}
-		}
-	}
+	files.forEach((file) => {
+		let command = require(`./commands/${category}/${file}`);
+		bot.commands.set(command.metadata.name, command);
+		
+		command.metadata.aliases.forEach((alias) => {
+			bot.aliases.set(alias, command.metadata.name);
+		});
+	});
 });
 
-
-function showHelp(channel, commandName) {
-	let categoriesChecked = 1;
-	
-	Object.entries(categories).forEach(commandListArr => {
-		let message = '';
-		// commandArr[1] = Array of category's command entries
-		const commandList = commandListArr[1];
-
-		if (commandName != null) {
-			if (commandList[commandName] == null) {
-				if (categoriesChecked == Object.entries(categories).length) {
-					message += `Command ${commandName} not found.`;
-				}
-				else {
-					categoriesChecked++;
-				}
-			}
-			else {
-				message += commandList[commandName].desc;
-			}
-		}
-		else {
-			const entries = Object.entries(commandList);
-			let requiredNameLength = 3;
-
-			// e[0] = Entry name
-			// e[1] = Entry values (desc & func)
-			entries.forEach(e => {
-				if (e[0].length + 3 > requiredNameLength) requiredNameLength = e[0].length + 3;
-			});
-			let spaces;
-			
-			// TODO: Fix why \n\n completely removes commandListArr[0] from message
-			// commandArr[1] = Category name
-			// message += commandListArr[0].toUpperCase() + '\n\n';
-
-			entries.forEach(e => {
-				spaces = '';
-				// Calculate required spaces for indent
-				for (let i = requiredNameLength; i > e[0].length; i--) {
-					spaces += ' ';
-				}
-				message += e[0] + spaces + e[1].desc + '\n';
-			});
-		}
-		// Catch empty message
-		if (message != '') {
-			channel.send(util.makeCodeBlock(message));
+bot.once('ready', () => {
+	console.info('Synus booted successfully.');
+	bot.user.setPresence({
+		game: {
+			name: 'hide and seek with bugs',
+			type: 'STREAMING',
+			url: 'https://www.twitch.tv/quonnz'
 		}
 	});
-}
+});
+
+bot.on('message', (message) => {
+	if (message.author.bot || !prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
+	if (prefixes.includes(message.content.trim())) {
+		echo(message, 'Ready to help! Type `synus help` to get started.');
+		return;
+	}
+
+	let args = message.content.split(/ +/g);
+	args.shift(); // Remove prefix
+	let command = args.shift().toLowerCase();
+
+	if (!bot.commands.has(bot.aliases.get(command)) && !bot.commands.has(command)) {
+		echo(message, `Command \`${command}\` does not exist.`);
+		return;
+	}
+	
+	try {
+		if (bot.commands.has(command)) bot.commands.get(command).execute(message, args, bot);
+		else bot.commands.get(bot.aliases.get(command)).execute(message, args, bot);
+	} catch (error) {
+		console.error(error);
+		echo(message, `Hm. That didn't work. Try that \`${command}\` again.`);
+	}
+});

@@ -88,3 +88,6 @@ typings/
 
 # config
 config.json
+
+# my command template
+command-template.js
