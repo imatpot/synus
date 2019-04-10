@@ -8,7 +8,7 @@ const echo = require('./commands/general/echo.js').execute;
 const print = require('./commands/general/print.js').execute;
 const hello = require('./commands/general/hello.js');
 
-const token = process.env.BOT_TOKEN_DEV;
+const token = process.env.BOT_TOKEN;
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 const commandsDirectory = path.resolve('./commands');
