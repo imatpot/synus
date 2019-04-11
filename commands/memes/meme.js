@@ -47,8 +47,13 @@ module.exports.execute = async (args, message, bot) => {
     embed.setURL('https://www.reddit.com' + post.permalink);
     embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
 
-    if (post.over_18) embed.addField('This post is NSFW', 'I hid it for you, just in case.', true);
-    else embed.setImage(post.url);
+    if (post.over_18) {
+        embed.addField('This post is NSFW', 'I hid it for you, just in case.', true);
+    }
+    else {
+        embed.setDescription(post.selftext);
+        embed.setImage(post.url);
+    }
 
     embed.setTimestamp();
     embed.setFooter(post.subreddit_name_prefixed, sub.icon_img);
