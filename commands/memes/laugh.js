@@ -4,7 +4,7 @@ const print = require('../general/print.js').execute;
 module.exports.properties = {
     name: 'laugh',
     aliases: ['xd','haha','hah'],
-    description: 'Make Synus laugh. Removed request to improve comedic effect.',
+    description: 'Make Synus laugh at the previous message.',
     usage: 'synus laugh',
 }
 
