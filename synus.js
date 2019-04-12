@@ -61,13 +61,11 @@ bot.on('message', (message) => {
 	if (args[0] != null && args[1] != null) {
 		if (args[0].toLowerCase() == 'i\'m') {
 			let name = args.slice(1).join(' ');
-			echo('a', message);
 			echo(`Hi ${name}, I'm Synus.`, message);
 			return;
 		}
 		else if (args[0].toLowerCase() == 'i' && args[1].toLowerCase() == 'am') {
 			if (args[2] != null) {
-				echo('b', message);
 				let name = args.slice(2).join(' ');
 				echo(`Hi ${name}, I'm Synus.`, message);
 				return;
