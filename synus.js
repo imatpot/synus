@@ -14,7 +14,6 @@ const prefixes = process.env.BOT_PREFIXES.split(',');
 const commandsDirectory = path.resolve('./commands');
 const bot = new Discord.Client();
 
-bot.login(token);
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 
@@ -43,7 +42,7 @@ categories.forEach((category) => {
 });
 
 bot.once('ready', () => {
-	console.info('Synus booted successfully.');
+	console.info('Synus is ready to help.');
 	bot.user.setPresence({
 		game: {
 			name: 'hide and seek with bugs',
@@ -54,15 +53,35 @@ bot.once('ready', () => {
 });
 
 bot.on('message', (message) => {
-	if (message.author.bot || !prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
+	if (message.author.bot) return;
+
+	let args = message.content.split(/ +/g);
+
+	// Typical dad joke
+	if (args[0].toLowerCase() == 'i\'m') {
+		let name = args.slice(1).join(' ');
+		echo(`Hi ${name}, I'm Synus.`, message);
+		return;
+	}
+	else if (args[0].toLowerCase() == 'i' || args[1].toLowerCase() == 'am') {
+		let name = args.slice(2).join(' ');
+		echo(`Hi ${name}, I'm Synus.`, message);
+		return;
+	}
+
+	// If it's not a dad joke, check if it has Synus' prefix
+	if (!prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
+
+	// People who forget to type the actual command might appreciate this
 	if (prefixes.includes(message.content.trim())) {
 		echo('Ready to help! Type `synus help` to get started.', message);
 		return;
 	}
 
-	let args = message.content.split(/ +/g);
-	args.shift(); // Remove prefix
+	let prefix = args.shift();
 	let command = args.shift().toLowerCase();
+
+	// At this point, only actual arguments are left in args
 
 	if (!bot.commands.has(bot.aliases.get(command)) && !bot.commands.has(command)) {
 		echo(`Command \`${command}\` doesn't exist.`, message);
@@ -74,6 +93,8 @@ bot.on('message', (message) => {
 		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);
 	} catch (error) {
 		console.error(error);
-		echo(`Hm. That didn't work. Try that \`${command}\` again.`, message);
+		echo(`Hmm. That didn't work. Try that \`${command}\` again.`, message);
 	}
 });
+
+bot.login(token);

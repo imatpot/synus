@@ -17,18 +17,22 @@ module.exports.execute = (args, message, bot) => {
     let categoryTree = {};
     const commandsDirectory = path.resolve('./commands');
 
+    // Load all categories
     let categories = fs.readdirSync(commandsDirectory).filter((dir) => {
         return fs.lstatSync(path.join(commandsDirectory, dir)).isDirectory();
     });
 
+    // Fill each category with commands
     categories.forEach((category) => {
         categoryTree[category] = [];
         const categoryDirectory = path.resolve(path.join(commandsDirectory, category));
 
+        // Only take .js files
         const files = fs.readdirSync(categoryDirectory).filter((file) => {
             return file.endsWith('.js');
         });
 
+        // Save commands to category in tree
         files.forEach((file) => {
             let command = require(`../${category}/${file}`);
             categoryTree[category].push({
@@ -40,6 +44,7 @@ module.exports.execute = (args, message, bot) => {
         });
     });
 
+    // General help, no command specified
     if (args.length === 0) {
         let spaces = '';
         let requiredNameLength = 'prefixes'.length + 3;
@@ -50,6 +55,7 @@ module.exports.execute = (args, message, bot) => {
             });
         }
 
+        // Build output
         for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
         print('PREFIXES' + spaces + prefixes.join(', '), message);
 
@@ -72,26 +78,31 @@ module.exports.execute = (args, message, bot) => {
         for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
         print('TIP' + spaces + 'For details, type synus help [command]', message)
     }
+
+    // Help to specific command
     else {
         const request = args.shift();
         let command = {};
         let category = '';
         let output = '';
 
+        // Fetch requested command
         for (let cat in categoryTree) {
             categoryTree[cat].forEach((cmd) => {
-                if (cmd.name === request || cmd.aliases.includes(request)) {
+                if (cmd.name === request || cmd.name == bot.aliases.get(request)) {
                     category = cat;
                     command = cmd;
                 };
             });
         }
 
+        // Command didn't result in valid outcome
         if (category === '' || command === {}) {
             echo(`Command \`${request}\` doesn't exist.`, message);
             return;
         }
 
+        // Build output
         output += command.name.toUpperCase() + '\n\n';
         output += 'Category:     ' + category.charAt(0).toUpperCase() + category.slice(1) + '\n';
         if (command.aliases.length !== 0) output += 'Aliases:      ' + command.aliases.splice(0, 9).join(', ') + '\n';
