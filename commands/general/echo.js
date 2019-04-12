@@ -3,7 +3,7 @@ const formatter = require('../../util/text-formatter.js');
 module.exports.properties = {
     name: 'echo',
     aliases: ['e'],
-    description: 'Repeats your text.',
+    description: 'Wow, such a big cave!',
     usage: 'synus echo [text]',
 }
 

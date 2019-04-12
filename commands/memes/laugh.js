@@ -5,7 +5,7 @@ const formatter = require('../../util/text-formatter.js');
 module.exports.properties = {
     name: 'laugh',
     aliases: ['xd','haha','hah'],
-    description: 'Make Synus laugh at the previous message.',
+    description: 'Make me laugh! Being a bot is lonely...',
     usage: 'synus laugh',
 }
 

@@ -4,7 +4,7 @@ const formatter = require('../../util/text-formatter.js');
 module.exports.properties = {
     name: 'print',
     aliases: ['echo-code'],
-    description: 'Repeats your text in a code-block.',
+    description: 'Like a printer but more eco-friendly, because I don\'t waste paper!',
     usage: 'synus print [text]',
 }
 

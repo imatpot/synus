@@ -11,7 +11,7 @@ const prefixes = process.env.BOT_PREFIXES.split(',');
 module.exports.properties = {
     name: 'help',
     aliases: ['h'],
-    description: 'Shows a list of commands.',
+    description: 'Let me show you what I can do.',
     usage: 'synus help',
 }
 

@@ -5,7 +5,7 @@ const formatter = require('../../util/text-formatter.js');
 module.exports.properties = {
     name: 'ping',
     aliases: [],
-    description: 'Pings Synus.',
+    description: 'Oh, a notification!',
     usage: 'synus ping',
 }
 

@@ -35,6 +35,8 @@ categories.forEach((category) => {
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
+
+		// Das a lot of greetings
 		hello.getGreetingsNoFlag().forEach((greeting) => {
 			bot.aliases.set(greeting, 'hello');
 		});

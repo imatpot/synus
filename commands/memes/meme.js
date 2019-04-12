@@ -8,7 +8,7 @@ const formatter = require('../../util/text-formatter.js');
 module.exports.properties = {
     name: 'meme',
     aliases: ['meem', 'mem'],
-    description: 'Fetches the latest meme from a subreddit, default is r/memes.',
+    description: 'Let me fetch the newest lit meme from any subreddit. Default is r/memes.',
     usage: 'synus meme [subreddit=memes]',
 }
 

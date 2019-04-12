@@ -9,7 +9,7 @@ const greetings = JSON.parse(fs.readFileSync(path.resolve('./data/greetings.json
 module.exports.properties = {
     name: 'hello',
     aliases: ['All of Sinus\' repsonses to this. Try it out!'],
-    description: 'Greets Synus.',
+    description: 'Say hello!',
     usage: 'synus hello',
 }
 
