@@ -57,23 +57,29 @@ bot.on('message', (message) => {
 
 	let args = message.content.split(/ +/g);
 
+	// Premature ping-check
+	if (args.join(' ') == `<@${bot.user.id}>`) {
+		bot.commands.get('ping').execute(args, message, bot);
+		return;
+	}
+
 	// Typical dad joke
 	if (args[0] != null && args[1] != null) {
 		if (args[0].toLowerCase() == 'i\'m') {
 			let name = args.slice(1).join(' ');
-			echo(`Hi ${name}, I'm Synus.`, message);
+			echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 			return;
 		}
 		else if (args[0].toLowerCase() == 'i' && args[1].toLowerCase() == 'am') {
 			if (args[2] != null) {
 				let name = args.slice(2).join(' ');
-				echo(`Hi ${name}, I'm Synus.`, message);
+				echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 				return;
 			}
 		}
 	}
 
-	// If it's not a dad joke, check if it has Synus' prefix
+	// Check if it has Synus' prefix
 	if (!prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
 
 	// People who forget to type the actual command might appreciate this

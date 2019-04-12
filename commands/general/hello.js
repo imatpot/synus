@@ -26,6 +26,13 @@ module.exports.getGreetingsNoFlag = () => {
     return arr;
 }
 
+module.exports.getGreeting = () => {
+    let greeting = '';
+    greeting = greetings[getRandomInt(greetings.length)].split(/ +/g);
+    greeting.shift();
+    return greeting.join(' ');
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
