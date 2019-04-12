@@ -31,7 +31,7 @@ categories.forEach((category) => {
 	files.forEach((file) => {
 		let command = require(`./commands/${category}/${file}`);
 		bot.commands.set(command.properties.name, command);
-		
+
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
@@ -57,16 +57,18 @@ bot.on('message', (message) => {
 
 	let args = message.content.split(/ +/g);
 
-	// Typical dad joke
-	if (args[0].toLowerCase() == 'i\'m') {
-		let name = args.slice(1).join(' ');
-		echo(`Hi ${name}, I'm Synus.`, message);
-		return;
-	}
-	else if (args[0].toLowerCase() == 'i' || args[1].toLowerCase() == 'am') {
-		let name = args.slice(2).join(' ');
-		echo(`Hi ${name}, I'm Synus.`, message);
-		return;
+	if (args[0] != null && args[1] != null) {
+		// Typical dad joke
+		if (args[0].toLowerCase() == 'i\'m') {
+			let name = args.slice(1).join(' ');
+			echo(`Hi ${name}, I'm Synus.`, message);
+			return;
+		}
+		else if (args[0].toLowerCase() == 'i' || args[1].toLowerCase() == 'am') {
+			let name = args.slice(2).join(' ');
+			echo(`Hi ${name}, I'm Synus.`, message);
+			return;
+		}
 	}
 
 	// If it's not a dad joke, check if it has Synus' prefix
@@ -87,7 +89,7 @@ bot.on('message', (message) => {
 		echo(`Command \`${command}\` doesn't exist.`, message);
 		return;
 	}
-	
+
 	try {
 		if (bot.commands.has(command)) bot.commands.get(command).execute(args, message, bot);
 		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);
