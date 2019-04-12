@@ -57,11 +57,8 @@ bot.on('message', (message) => {
 
 	let args = message.content.split(/ +/g);
 
-	// Premature ping-check
-	if (args.join(' ') == `<@${bot.user.id}>`) {
-		bot.commands.get('ping').execute(args, message, bot);
-		return;
-	}
+	// Ping by mention
+	if (message.isMentioned(bot.user.id)) { bot.commands.get('ping').execute(args, message, bot); }
 
 	// Typical dad joke
 	if (args[0] != null && args[1] != null) {
