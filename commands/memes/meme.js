@@ -12,6 +12,7 @@ module.exports.properties = {
 }
 
 module.exports.execute = async (args, message, bot) => {
+    // For the people who try to invoke with r/subreddit
     const subreddit = (args[0] == null) ? 'memes' : args[0].replace(/r\//g, '');
     let post = {};
     let user = {};
@@ -45,13 +46,12 @@ module.exports.execute = async (args, message, bot) => {
     embed.setColor('#FF4500');
     embed.setTitle(post.title);
     embed.setURL('https://www.reddit.com' + post.permalink);
-    if (post.author == '[deleted]') {
-        embed.setAuthor('[deleted user]', '', 'https://www.reddit.com');
-    }
-    else {
-        embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
-    }
 
+    // Catch deleted users
+    if (post.author == '[deleted]')  embed.setAuthor('u/[deleted]', '', 'https://www.reddit.com');
+    else embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
+
+    // Catch NSFW content
     if (post.over_18) {
         embed.addField('This post is NSFW', 'I hid it for you, just in case.', true);
     }
