@@ -1,3 +1,5 @@
+const formatter = require('../../util/text-formatter.js');
+
 module.exports.properties = {
     name: 'echo',
     aliases: ['e'],

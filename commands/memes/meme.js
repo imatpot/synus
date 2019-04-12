@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const echo = require('../general/echo.js').execute;
 const print = require('../general/print.js').execute;
 const fetch = require('node-fetch');
+const formatter = require('../../util/text-formatter.js');
 
 module.exports.properties = {
     name: 'meme',

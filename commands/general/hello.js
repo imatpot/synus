@@ -2,6 +2,7 @@ const echo = require('../general/echo.js').execute;
 const print = require('../general/print.js').execute;
 const fs = require('fs');
 const path = require('path');
+const formatter = require('../../util/text-formatter.js');
 
 const greetings = JSON.parse(fs.readFileSync(path.resolve('./data/greetings.json'))).greetings;
 

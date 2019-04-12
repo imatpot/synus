@@ -1,4 +1,5 @@
 const echo = require('./echo.js').execute;
+const formatter = require('../../util/text-formatter.js');
 
 module.exports.properties = {
     name: 'print',
@@ -8,6 +9,6 @@ module.exports.properties = {
 }
 
 module.exports.execute = (args, message, bot) => {
-    if (Array.isArray(args)) echo('```apache\n' + args.join(' ') + '```', message);
-	else echo('```apache\n' + args + '```', message);
+    if (Array.isArray(args)) echo(formatter.plainCodeBlock(args.join(' ')), message);
+	else echo(formatter.plainCodeBlock(args), message);
 }

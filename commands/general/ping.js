@@ -1,5 +1,6 @@
 const echo = require('./echo.js').execute;
 const print = require('./print.js').execute;
+const formatter = require('../../util/text-formatter.js');
 
 module.exports.properties = {
     name: 'ping',
