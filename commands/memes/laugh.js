@@ -10,5 +10,5 @@ module.exports.properties = {
 
 module.exports.execute = (args, message, bot) => {
     message.delete(1000);
-    echo('Hahay pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
+    echo('Haha, pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
 };
