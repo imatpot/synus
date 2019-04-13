@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const echo = require('./echo.js').execute;
-const print = require('./print.js').execute;
 const fs = require('fs');
 const path = require('path');
 const formatter = require('../../util/text-formatter.js');
@@ -12,8 +11,8 @@ module.exports.properties = {
     name: 'help',
     aliases: ['h'],
     description: 'Let me show you what I can do.',
-    usage: 'synus help',
-}
+    usage: 'synus help [command]'
+};
 
 module.exports.execute = (args, message, bot) => {
     let categoryTree = {};
@@ -41,7 +40,7 @@ module.exports.execute = (args, message, bot) => {
                 name: command.properties.name,
                 aliases: command.properties.aliases,
                 description: command.properties.description,
-                usage: command.properties.usage,
+                usage: command.properties.usage
             });
         });
     });
@@ -113,10 +112,10 @@ module.exports.execute = (args, message, bot) => {
         // Fetch requested command
         for (let cat in categoryTree) {
             categoryTree[cat].forEach((cmd) => {
-                if (cmd.name === request || cmd.name == bot.aliases.get(request)) {
+                if (cmd.name === request || cmd.name === bot.aliases.get(request)) {
                     category = cat;
                     command = cmd;
-                };
+                }
             });
         }
 
@@ -135,4 +134,4 @@ module.exports.execute = (args, message, bot) => {
 
         echo(formatter.apacheCodeBlock(output), message);
     }
-}
+};

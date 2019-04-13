@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const echo = require('./commands/general/echo.js').execute;
-const print = require('./commands/general/print.js').execute;
 const hello = require('./commands/general/hello.js');
 
 const token = process.env.BOT_TOKEN;
@@ -63,14 +62,14 @@ bot.on('message', (message) => {
 	if (message.isMentioned(bot.user.id)) { bot.commands.get('ping').execute(args, message, bot); }
 
 	// Typical dad joke
-	if (args[0] != null && args[1] != null) {
-		if (args[0].toLowerCase() == 'i\'m') {
+	if (args[0] !== undefined && args[1] !== undefined) {
+		if (args[0].toLowerCase() === 'i\'m') {
 			let name = args.slice(1).join(' ');
 			echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 			return;
 		}
-		else if (args[0].toLowerCase() == 'i' && args[1].toLowerCase() == 'am') {
-			if (args[2] != null) {
+		else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
+			if (args[2] !== undefined) {
 				let name = args.slice(2).join(' ');
 				echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 				return;
