@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const echo = require('./commands/general/echo.js').execute;
-const print = require('./commands/general/print.js').execute;
 const hello = require('./commands/general/hello.js');
 
 const token = process.env.BOT_TOKEN;
@@ -31,10 +30,12 @@ categories.forEach((category) => {
 	files.forEach((file) => {
 		let command = require(`./commands/${category}/${file}`);
 		bot.commands.set(command.properties.name, command);
-		
+
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
+
+		// Das a lot of greetings
 		hello.getGreetingsNoFlag().forEach((greeting) => {
 			bot.aliases.set(greeting, 'hello');
 		});
@@ -57,19 +58,26 @@ bot.on('message', (message) => {
 
 	let args = message.content.split(/ +/g);
 
+	// Ping by mention
+	if (message.isMentioned(bot.user.id)) { bot.commands.get('ping').execute(args, message, bot); }
+
 	// Typical dad joke
-	if (args[0].toLowerCase() == 'i\'m') {
-		let name = args.slice(1).join(' ');
-		echo(`Hi ${name}, I'm Synus.`, message);
-		return;
-	}
-	else if (args[0].toLowerCase() == 'i' || args[1].toLowerCase() == 'am') {
-		let name = args.slice(2).join(' ');
-		echo(`Hi ${name}, I'm Synus.`, message);
-		return;
+	if (args[0] !== undefined && args[1] !== undefined) {
+		if (args[0].toLowerCase() === 'i\'m') {
+			let name = args.slice(1).join(' ');
+			echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+			return;
+		}
+		else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
+			if (args[2] !== undefined) {
+				let name = args.slice(2).join(' ');
+				echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+				return;
+			}
+		}
 	}
 
-	// If it's not a dad joke, check if it has Synus' prefix
+	// Check if it has Synus' prefix
 	if (!prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
 
 	// People who forget to type the actual command might appreciate this
@@ -87,7 +95,7 @@ bot.on('message', (message) => {
 		echo(`Command \`${command}\` doesn't exist.`, message);
 		return;
 	}
-	
+
 	try {
 		if (bot.commands.has(command)) bot.commands.get(command).execute(args, message, bot);
 		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);

@@ -1,17 +1,18 @@
 require('dotenv').config();
 
 const echo = require('./echo.js').execute;
-const print = require('./print.js').execute;
 const fs = require('fs');
 const path = require('path');
+const formatter = require('../../util/text-formatter.js');
+
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 module.exports.properties = {
     name: 'help',
     aliases: ['h'],
-    description: 'Shows a list of commands.',
-    usage: 'synus help',
-}
+    description: 'Let me show you what I can do.',
+    usage: 'synus help [command]'
+};
 
 module.exports.execute = (args, message, bot) => {
     let categoryTree = {};
@@ -39,7 +40,7 @@ module.exports.execute = (args, message, bot) => {
                 name: command.properties.name,
                 aliases: command.properties.aliases,
                 description: command.properties.description,
-                usage: command.properties.usage,
+                usage: command.properties.usage
             });
         });
     });
@@ -47,6 +48,8 @@ module.exports.execute = (args, message, bot) => {
     // General help, no command specified
     if (args.length === 0) {
         let spaces = '';
+        let output = '';
+        let part = '';
         let requiredNameLength = 'prefixes'.length + 3;
 
         for (let cat in categoryTree) {
@@ -55,28 +58,48 @@ module.exports.execute = (args, message, bot) => {
             });
         }
 
-        // Build output
+        // Start building output
         for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
-        print('PREFIXES' + spaces + prefixes.join(', '), message);
+        output += formatter.apacheCodeBlock('PREFIXES' + spaces + prefixes.join(', '));
 
         for (let cat in categoryTree) {
-            let output = '';
+            part = '';
 
-            output += cat.toUpperCase() + '\n\n';
+            part += cat.toUpperCase() + '\n\n';
             categoryTree[cat].forEach((cmd) => {
                 spaces = '';
                 for (let i = requiredNameLength; i > cmd.name.length; i--) {
                     spaces += ' ';
                 }
-                output += cmd.name + spaces + cmd.description + '\n';
+                part += cmd.name + spaces + cmd.description + '\n';
             });
 
-            print(output, message);
+            part = formatter.apacheCodeBlock(part);
+            
+            // Keep an eye on Discord message length limits
+            if ((output + part).length > 2000) {
+                echo(output, message);
+                output = part;
+            }
+            else {
+                output += part;
+            }
         }
 
         spaces = '';
         for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
-        print('TIP' + spaces + 'For details, type synus help [command]', message)
+        part = formatter.apacheCodeBlock('TIP' + spaces + 'For details, type synus help [command]');
+
+        // Keep an eye on Discord message length limits
+        if ((output + part).length > 2000) {
+            echo(output, message);
+            output = part;
+        }
+        else {
+            output += part;
+        }
+
+        echo(output, message);
     }
 
     // Help to specific command
@@ -89,10 +112,10 @@ module.exports.execute = (args, message, bot) => {
         // Fetch requested command
         for (let cat in categoryTree) {
             categoryTree[cat].forEach((cmd) => {
-                if (cmd.name === request || cmd.name == bot.aliases.get(request)) {
+                if (cmd.name === request || cmd.name === bot.aliases.get(request)) {
                     category = cat;
                     command = cmd;
-                };
+                }
             });
         }
 
@@ -109,6 +132,6 @@ module.exports.execute = (args, message, bot) => {
         output += 'Description:  ' + command.description + '\n\n';
         output += 'Usage:        ' + command.usage;
 
-        print(output, message);
+        echo(formatter.apacheCodeBlock(output), message);
     }
-}
+};

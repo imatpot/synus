@@ -1,19 +1,19 @@
 const Discord = require('discord.js');
 
 const echo = require('../general/echo.js').execute;
-const print = require('../general/print.js').execute;
 const fetch = require('node-fetch');
+const formatter = require('../../util/text-formatter.js');
 
 module.exports.properties = {
     name: 'meme',
     aliases: ['meem', 'mem'],
-    description: 'Fetches the latest meme from a subreddit, default is r/memes.',
-    usage: 'synus meme [subreddit=memes]',
-}
+    description: 'Let me fetch the newest lit meme from any subreddit. Default is r/memes.',
+    usage: 'synus meme [subreddit=memes]'
+};
 
 module.exports.execute = async (args, message, bot) => {
     // For the people who try to invoke with r/subreddit
-    const subreddit = (args[0] == null) ? 'memes' : args[0].replace(/r\//g, '');
+    const subreddit = (args[0] === undefined) ? 'memes' : args[0].replace(/r\//g, '');
     let post = {};
     let user = {};
     let sub = {};
@@ -22,12 +22,12 @@ module.exports.execute = async (args, message, bot) => {
     await fetch(`https://api.reddit.com/r/${subreddit}/new.json?sort=new&limit=1`)
         .then((postResponse) => postResponse.json())
         .then((postResponse) => {
-            if (postResponse.data.after == null) {
+            if (postResponse.data.after === undefined) {
                 echo(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
                 stop = true;
             }
             else {
-                post = postResponse.data.children[0].data
+                post = postResponse.data.children[0].data;
             }
         });
 
@@ -48,7 +48,7 @@ module.exports.execute = async (args, message, bot) => {
     embed.setURL('https://www.reddit.com' + post.permalink);
 
     // Catch deleted users
-    if (post.author == '[deleted]')  embed.setAuthor('u/[deleted]', '', 'https://www.reddit.com');
+    if (post.author === '[deleted]')  embed.setAuthor('u/[deleted]', '', 'https://www.reddit.com');
     else embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
 
     // Catch NSFW content
@@ -64,4 +64,4 @@ module.exports.execute = async (args, message, bot) => {
     embed.setFooter(post.subreddit_name_prefixed, sub.icon_img);
 
     echo(embed, message);
-}
+};
