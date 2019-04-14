@@ -1,3 +1,3 @@
 module.exports = (bot, guild) => {
-	bot.logger.notify(`[GUILD JOIN] ${guild.name} (${guild.id}) added the bot. Owner: ${guild.owner.user.tag} (${guild.owner.user.id})`);
+	bot.logger.notify(`[GUILD JOIN] ${bot.user.tag} was added to ${guild.name} (${guild.id}). Guild owner: ${guild.owner.user.tag}`);
 };

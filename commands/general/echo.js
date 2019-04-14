@@ -6,6 +6,6 @@ exports.properties = {
 };
 
 exports.execute = (args, message, bot) => {
-    if (Array.isArray(args)) message.channel.send(args.join(' '));
-	else message.channel.send(args);
+    if (Array.isArray(args)) return message.channel.send(args.join(' '));
+	else return message.channel.send(args);
 };

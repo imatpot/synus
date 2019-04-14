@@ -14,10 +14,12 @@ exports.properties = {
 
 exports.execute = (args, message, bot) => {
     let categoryTree = {};
+    const owner = (process.env.OWNER_ID === message.author.id);
     const commandsDirectory = path.resolve('./commands');
 
     // Load all categories
     let categories = fs.readdirSync(commandsDirectory).filter((dir) => {
+        if (!owner && dir.toLowerCase() === 'owner') return false;
         return fs.lstatSync(path.join(commandsDirectory, dir)).isDirectory();
     });
 

@@ -55,7 +55,7 @@ events.forEach((event) => {
 	const eventName = event.split('.js')[0];
 	const eventFunction = require(`./events/${event}`);
 	bot.logger.log(`Loading event ${eventName.toUpperCase()}`);
-	bot.on(eventName, eventFunction.bind(null, bot));
+	bot.on(eventName, eventFunction.bind(undefined, bot));
 });
 
 bot.login(token);
