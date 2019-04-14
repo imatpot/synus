@@ -3,7 +3,7 @@ const hello = require('../commands/general/hello.js');
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 module.exports = (bot, message) => {
-    // if (message.author.bot) return;
+    if (message.author.bot) return;
 
 	const args = message.content.split(/ +/g);
 
