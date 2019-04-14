@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');
-const echo = require('./commands/general/echo.js').execute;
 const hello = require('./commands/general/hello.js');
 
 const token = process.env.BOT_TOKEN;
@@ -15,12 +14,16 @@ const bot = new Discord.Client();
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
+bot.formatter = require('./util/text-formatter.js');
+bot.echo = require('./commands/general/echo.js').execute;
+bot.logger = require('./util/logger.js');
 
 let categories = fs.readdirSync(commandsDirectory).filter((dir) => {
 	return fs.lstatSync(path.join(commandsDirectory, dir)).isDirectory();
 });
 
 categories.forEach((category) => {
+	bot.logger.log(`Loading category ${category.toUpperCase()}`);
 	const categoryDirectory = path.resolve(path.join(commandsDirectory, category));
 
 	const files = fs.readdirSync(categoryDirectory).filter((file) => {
@@ -30,20 +33,22 @@ categories.forEach((category) => {
 	files.forEach((file) => {
 		let command = require(`./commands/${category}/${file}`);
 		bot.commands.set(command.properties.name, command);
+		bot.logger.log(`Loaded command ${command.properties.name.toUpperCase()}`);
 
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
-
-		// Das a lot of greetings
-		hello.getGreetingsNoFlag().forEach((greeting) => {
-			bot.aliases.set(greeting, 'hello');
-		});
 	});
 });
 
+// Das a lot of greetings
+hello.getGreetingsNoFlag().forEach((greeting) => {
+	bot.aliases.set(greeting, 'hello');
+});
+bot.logger.log('Loaded greetings');
+
 bot.once('ready', () => {
-	console.info('Synus is ready to help.');
+	bot.logger.notify(`[READY] ${bot.user.tag} booted successfully`);
 	bot.user.setPresence({
 		game: {
 			name: 'hide and seek with bugs',
@@ -65,13 +70,13 @@ bot.on('message', (message) => {
 	if (args[0] !== undefined && args[1] !== undefined) {
 		if (args[0].toLowerCase() === 'i\'m') {
 			let name = args.slice(1).join(' ');
-			echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+			bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 			return;
 		}
 		else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
 			if (args[2] !== undefined) {
 				let name = args.slice(2).join(' ');
-				echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+				bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
 				return;
 			}
 		}
@@ -82,7 +87,7 @@ bot.on('message', (message) => {
 
 	// People who forget to type the actual command might appreciate this
 	if (prefixes.includes(message.content.trim())) {
-		echo('Ready to help! Type `synus help` to get started.', message);
+		bot.echo('Ready to help! Type `synus help` to get started.', message);
 		return;
 	}
 
@@ -92,16 +97,17 @@ bot.on('message', (message) => {
 	// At this point, only actual arguments are left in args
 
 	if (!bot.commands.has(bot.aliases.get(command)) && !bot.commands.has(command)) {
-		echo(`Command \`${command}\` doesn't exist.`, message);
+		bot.echo(`Command \`${command}\` doesn't exist.`, message);
 		return;
 	}
 
 	try {
-		if (bot.commands.has(command)) bot.commands.get(command).execute(args, message, bot);
-		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);
+		if (!bot.commands.has(command)) command = bot.aliases.get(command);
+		bot.commands.get(command).execute(args, message, bot);
+		bot.logger.command(`${message.author.tag} ran ${command.toUpperCase()} in ${message.guild.name} (${message.guild.id})`);
 	} catch (error) {
-		console.error(error);
-		echo(`Hmm. That didn't work. Try that \`${command}\` again.`, message);
+		bot.logger.error(`${command.toUpperCase()} [${args}] => ${error}`);
+		bot.echo(`Hmm. That didn't work. Try that \`${command}\` again.`, message);
 	}
 });
 

@@ -1,7 +1,7 @@
-module.exports.apacheCodeBlock = (s) => {
+exports.apacheCodeBlock = (s) => {
     return '```apache\n' + s + '```';
 };
 
-module.exports.plainCodeBlock = (s) => {
+exports.plainCodeBlock = (s) => {
     return '```\n' + s + '```';
 };

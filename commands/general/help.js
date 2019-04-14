@@ -1,20 +1,18 @@
 require('dotenv').config();
 
-const echo = require('./echo.js').execute;
 const fs = require('fs');
 const path = require('path');
-const formatter = require('../../util/text-formatter.js');
 
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
-module.exports.properties = {
+exports.properties = {
     name: 'help',
     aliases: ['h'],
     description: 'Let me show you what I can do.',
     usage: 'synus help [command]'
 };
 
-module.exports.execute = (args, message, bot) => {
+exports.execute = (args, message, bot) => {
     let categoryTree = {};
     const commandsDirectory = path.resolve('./commands');
 
@@ -60,7 +58,7 @@ module.exports.execute = (args, message, bot) => {
 
         // Start building output
         for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
-        output += formatter.apacheCodeBlock('PREFIXES' + spaces + prefixes.join(', '));
+        output += bot.formatter.apacheCodeBlock('PREFIXES' + spaces + prefixes.join(', '));
 
         for (let cat in categoryTree) {
             part = '';
@@ -74,11 +72,11 @@ module.exports.execute = (args, message, bot) => {
                 part += cmd.name + spaces + cmd.description + '\n';
             });
 
-            part = formatter.apacheCodeBlock(part);
+            part = bot.formatter.apacheCodeBlock(part);
             
             // Keep an eye on Discord message length limits
             if ((output + part).length > 2000) {
-                echo(output, message);
+                bot.echo(output, message);
                 output = part;
             }
             else {
@@ -88,18 +86,18 @@ module.exports.execute = (args, message, bot) => {
 
         spaces = '';
         for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
-        part = formatter.apacheCodeBlock('TIP' + spaces + 'For details, type synus help [command]');
+        part = bot.formatter.apacheCodeBlock('TIP' + spaces + 'For details, type synus help [command]');
 
         // Keep an eye on Discord message length limits
         if ((output + part).length > 2000) {
-            echo(output, message);
+            bot.echo(output, message);
             output = part;
         }
         else {
             output += part;
         }
 
-        echo(output, message);
+        bot.echo(output, message);
     }
 
     // Help to specific command
@@ -121,7 +119,7 @@ module.exports.execute = (args, message, bot) => {
 
         // Command didn't result in valid outcome
         if (category === '' || command === {}) {
-            echo(`Command \`${request}\` doesn't exist.`, message);
+            bot.echo(`Command \`${request}\` doesn't exist.`, message);
             return;
         }
 
@@ -132,6 +130,6 @@ module.exports.execute = (args, message, bot) => {
         output += 'Description:  ' + command.description + '\n\n';
         output += 'Usage:        ' + command.usage;
 
-        echo(formatter.apacheCodeBlock(output), message);
+        bot.echo(bot.formatter.apacheCodeBlock(output), message);
     }
 };
