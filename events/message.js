@@ -1,4 +1,5 @@
 require('dotenv').config();
+const hello = require('../commands/general/hello.js');
 const prefixes = process.env.BOT_PREFIXES.split(',');
 
 module.exports = (bot, message) => {
