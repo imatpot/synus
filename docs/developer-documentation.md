@@ -14,9 +14,9 @@ To work properly, Synus requires API keys.
 Make sure you get your hands on at least one key for each item in this table list before trying
 to do anything with the bot itself.
 
-| API key / token | Where?                                                                       | Why?                                                                                                                                                  |
-| --------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | You bot's gonna need an user to log into Discord. Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html). |  | are neat |
+| API key / token | Where?                                                                       | Why?                                                                                                                                                   |
+| --------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html). |  | are neat |
 
 
 
@@ -57,7 +57,7 @@ with that specific emote at all times!
 | [`commands/general/about.js`](../commands/general/about.js) | `output` builder         |
 | [`commands/general/ping.js`](../commands/general/ping.js)   | `output` builder         |
 
-### Where do I find the emoji ID?
+### Where do I find the emoji ID for my custom emoji?
 
 You can get the emoji ID by sending `\:emoji_name:` into any channel that your emoji is accessible
 in. For example, the input`\:mavna:` will result in `<:mavna:520310830240366602>` in my bot emoji
@@ -65,8 +65,7 @@ host server.
 
 ### Having trouble finding the emoji in my code?
 
-Usually, custom emoji are retrieved via one of two methods.
-
+Usually, custom emoji are retrieved via one of two methods.<br>
 They're either referenced directly in a string like
 ```md
 <:mavna:520310830240366602>
