@@ -18,6 +18,9 @@ All commands, errors, etc. are being logged. These logs are cleared on a regular
 
 ## Developping with Synus
 
+[![Open Source Love](https://img.shields.io/badge/open%20source-%E2%9D%A4%EF%B8%8F-red.svg?style=flat-square)](https://en.wikipedia.org/wiki/Open_source)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?label=license&style=flat-square)](https://opensource.org/licenses/MIT)
+
 ### Prerequisites
 
 There's not much holding you back from testing Synus out on your own. All you need is
@@ -34,13 +37,3 @@ Install dependencies<br>`npm i`
 Start bot<br>`node synus.js`
   
 Add your bot user to a server and get started with<br>`synus help`
-
-### Stats
-
-[![Open Source Love](https://img.shields.io/badge/open%20source-%E2%9D%A4%EF%B8%8F-red.svg?style=flat-square)](https://en.wikipedia.org/wiki/Open_source)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?label=license&style=flat-square)](https://opensource.org/licenses/MIT)
-
-[![Dependencies](https://img.shields.io/librariesio/github/mladenbrankovic/synus.svg?style=flat-square)](https://libraries.io/github/mladenbrankovic/synus)
-[![Travis CI](https://img.shields.io/travis/mladenbrankovic/synus.svg?style=flat-square)](https://travis-ci.org/mladenbrankovic/synus/)
-
-[![Travis Build History](https://buildstats.info/travisci/chart/mladenbrankovic/synus)](https://travis-ci.org/mladenbrankovic/synus/builds)
