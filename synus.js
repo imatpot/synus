@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');
-const hello = require('./commands/general/hello.js');
 
 const token = process.env.BOT_TOKEN;
 
@@ -14,9 +13,9 @@ const bot = new Discord.Client();
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
-bot.formatter = require('./util/text-formatter.js');
+bot.formatter = require('./utils/text-formatter.js');
 bot.echo = require('./commands/general/echo.js').execute;
-bot.logger = require('./util/logger.js');
+bot.logger = require('./utils/logger.js');
 
 const categories = fs.readdirSync(commandsDirectory).filter((dir) => {
 	return fs.lstatSync(path.join(commandsDirectory, dir)).isDirectory();
@@ -42,7 +41,7 @@ categories.forEach((category) => {
 });
 
 // Das a lot of greetings
-hello.getGreetingsNoFlag().forEach((greeting) => {
+bot.commands.get('hello').getGreetingsNoFlag().forEach((greeting) => {
 	bot.aliases.set(greeting, 'hello');
 });
 bot.logger.log('Loaded greetings');
@@ -55,6 +54,7 @@ events.forEach((event) => {
 	const eventName = event.split('.js')[0];
 	const eventFunction = require(`./events/${event}`);
 	bot.logger.log(`Loading event ${eventName.toUpperCase()}`);
+	// This is pretty neat, didn't expect it to work *that* well
 	bot.on(eventName, eventFunction.bind(undefined, bot));
 });
 

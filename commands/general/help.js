@@ -58,7 +58,7 @@ exports.execute = (args, message, bot) => {
             });
         }
 
-        // Start building output
+        // Output builder
         for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
         output += bot.formatter.apacheCodeBlock('PREFIXES' + spaces + prefixes.join(', '));
 

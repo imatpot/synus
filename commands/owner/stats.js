@@ -14,6 +14,7 @@ module.exports.execute = (args, message, bot) => {
         const uptime = moment.duration(bot.uptime).format('D [days], H [hours], m [minutes], s [seconds]');
         let output = '';
 
+        // Output builder
         output += 'STATISTICS \n\n';
         output += `Uptime:     ${uptime}\n`;
         output += '\n';
