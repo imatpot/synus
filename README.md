@@ -8,9 +8,13 @@ Written using the [discord.js](https://discord.js.org/#/) library, Synus is desi
 
 # Getting started
 
+
 ## Using Synus
 
 [Add Synus to your server](https://discordapp.com/oauth2/authorize?client_id=561922821043781653&permissions=8&scope=bot) and run `synus help` to get started
+
+#### Disclaimer
+All commands, errors, etc. are being logged. These logs are cleared on a regular basis and only read for debugging purposes, or when something goes wrong.
 
 ## Developping with Synus
 
