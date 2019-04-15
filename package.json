@@ -25,8 +25,11 @@
   },
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
     "discord.js": "^11.4.2",
     "dotenv": "^7.0.0",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.2.2",
     "node-fetch": "^2.3.0",
     "npm": "^6.9.0"
   }

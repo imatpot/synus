@@ -1,14 +1,11 @@
-const echo = require('../general/echo.js').execute;
-const formatter = require('../../util/text-formatter.js');
-
-module.exports.properties = {
+exports.properties = {
     name: 'laugh',
     aliases: ['xd','haha','hah'],
     description: 'Make me laugh! Being a bot is lonely...',
     usage: 'synus laugh'
 };
 
-module.exports.execute = (args, message, bot) => {
+exports.execute = (args, message, bot) => {
     message.delete(1000);
-    echo('Haha, pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
+    bot.echo('Haha, pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
 };

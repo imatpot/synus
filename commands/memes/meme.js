@@ -1,17 +1,16 @@
+// Subscribe to PewDiePie
+
 const Discord = require('discord.js');
-
-const echo = require('../general/echo.js').execute;
 const fetch = require('node-fetch');
-const formatter = require('../../util/text-formatter.js');
 
-module.exports.properties = {
+exports.properties = {
     name: 'meme',
     aliases: ['meem', 'mem'],
     description: 'Let me fetch the newest lit meme from any subreddit. Default is r/memes.',
     usage: 'synus meme [subreddit=memes]'
 };
 
-module.exports.execute = async (args, message, bot) => {
+exports.execute = async (args, message, bot) => {
     // For the people who try to invoke with r/subreddit
     const subreddit = (args[0] === undefined) ? 'memes' : args[0].replace(/r\//g, '');
     let post = {};
@@ -23,7 +22,7 @@ module.exports.execute = async (args, message, bot) => {
         .then((postResponse) => postResponse.json())
         .then((postResponse) => {
             if (postResponse.data.after === undefined) {
-                echo(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
+                bot.echo(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
                 stop = true;
             }
             else {
@@ -63,5 +62,5 @@ module.exports.execute = async (args, message, bot) => {
     embed.setTimestamp();
     embed.setFooter(post.subreddit_name_prefixed, sub.icon_img);
 
-    echo(embed, message);
+    bot.echo(embed, message);
 };

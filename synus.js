@@ -4,23 +4,25 @@ const Discord = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');
-const echo = require('./commands/general/echo.js').execute;
-const hello = require('./commands/general/hello.js');
 
 const token = process.env.BOT_TOKEN;
-const prefixes = process.env.BOT_PREFIXES.split(',');
 
 const commandsDirectory = path.resolve('./commands');
+const eventsDirectory = path.resolve('./events');
 const bot = new Discord.Client();
 
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
+bot.formatter = require('./utils/text-formatter.js');
+bot.echo = require('./commands/general/echo.js').execute;
+bot.logger = require('./utils/logger.js');
 
-let categories = fs.readdirSync(commandsDirectory).filter((dir) => {
+const categories = fs.readdirSync(commandsDirectory).filter((dir) => {
 	return fs.lstatSync(path.join(commandsDirectory, dir)).isDirectory();
 });
 
 categories.forEach((category) => {
+	bot.logger.log(`Loading category ${category.toUpperCase()}`);
 	const categoryDirectory = path.resolve(path.join(commandsDirectory, category));
 
 	const files = fs.readdirSync(categoryDirectory).filter((file) => {
@@ -28,81 +30,32 @@ categories.forEach((category) => {
 	});
 
 	files.forEach((file) => {
-		let command = require(`./commands/${category}/${file}`);
+		const command = require(`./commands/${category}/${file}`);
 		bot.commands.set(command.properties.name, command);
+		bot.logger.log(`Loaded command ${command.properties.name.toUpperCase()}`);
 
 		command.properties.aliases.forEach((alias) => {
 			bot.aliases.set(alias, command.properties.name);
 		});
-
-		// Das a lot of greetings
-		hello.getGreetingsNoFlag().forEach((greeting) => {
-			bot.aliases.set(greeting, 'hello');
-		});
 	});
 });
 
-bot.once('ready', () => {
-	console.info('Synus is ready to help.');
-	bot.user.setPresence({
-		game: {
-			name: 'hide and seek with bugs',
-			type: 'STREAMING',
-			url: 'https://www.twitch.tv/quonnz'
-		}
-	});
+// Das a lot of greetings
+bot.commands.get('hello').getGreetingsNoFlag().forEach((greeting) => {
+	bot.aliases.set(greeting, 'hello');
+});
+bot.logger.log('Loaded greetings');
+
+const events = fs.readdirSync(eventsDirectory).filter((file) => {
+	return file.endsWith('.js');
 });
 
-bot.on('message', (message) => {
-	if (message.author.bot) return;
-
-	let args = message.content.split(/ +/g);
-
-	// Ping by mention
-	if (message.isMentioned(bot.user.id)) { bot.commands.get('ping').execute(args, message, bot); }
-
-	// Typical dad joke
-	if (args[0] !== undefined && args[1] !== undefined) {
-		if (args[0].toLowerCase() === 'i\'m') {
-			let name = args.slice(1).join(' ');
-			echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
-			return;
-		}
-		else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
-			if (args[2] !== undefined) {
-				let name = args.slice(2).join(' ');
-				echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
-				return;
-			}
-		}
-	}
-
-	// Check if it has Synus' prefix
-	if (!prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
-
-	// People who forget to type the actual command might appreciate this
-	if (prefixes.includes(message.content.trim())) {
-		echo('Ready to help! Type `synus help` to get started.', message);
-		return;
-	}
-
-	let prefix = args.shift();
-	let command = args.shift().toLowerCase();
-
-	// At this point, only actual arguments are left in args
-
-	if (!bot.commands.has(bot.aliases.get(command)) && !bot.commands.has(command)) {
-		echo(`Command \`${command}\` doesn't exist.`, message);
-		return;
-	}
-
-	try {
-		if (bot.commands.has(command)) bot.commands.get(command).execute(args, message, bot);
-		else bot.commands.get(bot.aliases.get(command)).execute(args, message, bot);
-	} catch (error) {
-		console.error(error);
-		echo(`Hmm. That didn't work. Try that \`${command}\` again.`, message);
-	}
+events.forEach((event) => {
+	const eventName = event.split('.js')[0];
+	const eventFunction = require(`./events/${event}`);
+	bot.logger.log(`Loading event ${eventName.toUpperCase()}`);
+	// This is pretty neat, didn't expect it to work *that* well
+	bot.on(eventName, eventFunction.bind(undefined, bot));
 });
 
 bot.login(token);
