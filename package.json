@@ -4,7 +4,7 @@
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
   "main": "synus.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test specified in package.json\""
   },
   "repository": {
     "type": "git",
