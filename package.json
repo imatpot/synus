@@ -4,9 +4,7 @@
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
   "main": "synus.js",
   "scripts": {
-    "test": "echo \"No test specified in package.json\"",
-    "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json",
-    "build:browser": "webpack"
+    "test": "echo \"No test specified in package.json\""
   },
   "repository": {
     "type": "git",
