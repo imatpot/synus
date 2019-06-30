@@ -1,4 +1,4 @@
 exports.splitArgs = (args) => {
-    // args ex.
-    // 
+  // args ex.
+  // 
 };
