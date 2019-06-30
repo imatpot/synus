@@ -14,9 +14,9 @@ To work properly, Synus requires API keys.
 Make sure you get your hands on at least one key for each item in this table list before trying
 to do anything with the bot itself.
 
-| API key / token | Where?                                                                       | Why?                                                                                                                                                   |
-| --------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html). |  | are neat |
+| API key / token | Where?                                                                       | Why?                                                                                                                                                                |
+|-----------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html).||are neat |
 
 
 
@@ -37,7 +37,7 @@ BOT_TOKEN="U1Tr4.53cR3t-T0k3N"
 Now for the list of the required environment variables.
 
 | Variable name | Expected value                                                                                 |
-| ------------- | ---------------------------------------------------------------------------------------------- |
+|---------------|------------------------------------------------------------------------------------------------|
 | BOT_PREFIXES  | A pseudo-array of prefixes, values separated by commas. <br> Example: `BOT_PREFIXES="synus,s"` |
 | BOT_TOKEN     | Your bot user token. More infos in [this section](#API-keys-&-tokens).                         |
 | OWNER_ID      | The ID of *your own* Discord user. This is required for some owner-only commands.              |
@@ -52,7 +52,7 @@ are essential for anything to work. If you do replace them, make sure your bot i
 with that specific emote at all times!
 
 | Custom emoji occurences                                     | Approximate location     |
-| ----------------------------------------------------------- | ------------------------ |
+|-------------------------------------------------------------|--------------------------|
 | [`data/greetings.json`](../data/greetings.json)             | End of `greetings` array |
 | [`commands/general/about.js`](../commands/general/about.js) | `output` builder         |
 | [`commands/general/ping.js`](../commands/general/ping.js)   | `output` builder         |
