@@ -11,20 +11,20 @@ module.exports = (bot, message) => {
 	if (message.isMentioned(bot.user.id)) { bot.commands.get('ping').execute(args, message, bot); }
 
 	// Typical dad joke
-	if (args[0] !== undefined && args[1] !== undefined) {
-		if (args[0].toLowerCase() === 'i\'m') {
-			const name = args.slice(1).join(' ');
-			bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
-			return;
-		}
-		else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
-			if (args[2] !== undefined) {
-				const name = args.slice(2).join(' ');
-				bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
-				return;
-			}
-		}
-	}
+	// if (args[0] !== undefined && args[1] !== undefined) {
+	// 	if (args[0].toLowerCase() === 'i\'m') {
+	// 		const name = args.slice(1).join(' ');
+	// 		bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+	// 		return;
+	// 	}
+	// 	else if (args[0].toLowerCase() === 'i' && args[1].toLowerCase() === 'am') {
+	// 		if (args[2] !== undefined) {
+	// 			const name = args.slice(2).join(' ');
+	// 			bot.echo(`${hello.getGreeting()}, ${name}! I'm Synus.`, message);
+	// 			return;
+	// 		}
+	// 	}
+	// }
 
 	// Check if it has Synus' prefix
 	if (!prefixes.includes(message.content.split(/ +/g).shift().toLowerCase())) return;
