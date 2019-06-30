@@ -11,7 +11,7 @@ exports.properties = {
 };
 
 exports.execute = (args, message, bot) => {
-  bot.echo(greetings[getRandomInt(greetings.length)], message);
+  bot.say(greetings[getRandomInt(greetings.length)], message);
 };
 
 exports.getGreetingsNoFlag = () => {

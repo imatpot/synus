@@ -22,7 +22,7 @@ exports.execute = async (args, message, bot) => {
     .then((postResponse) => postResponse.json())
     .then((postResponse) => {
       if (postResponse.data.after === undefined) {
-        bot.echo(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
+        bot.say(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
         stop = true;
       }
       else {
@@ -62,5 +62,5 @@ exports.execute = async (args, message, bot) => {
   embed.setTimestamp();
   embed.setFooter(post.subreddit_name_prefixed, sub.icon_img);
 
-  bot.echo(embed, message);
+  bot.say(embed, message);
 };

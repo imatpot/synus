@@ -13,5 +13,5 @@ exports.execute = (args, message, bot) => {
   output += 'That\'s short for `systematically yielded, natively unobstrusive sidekick` \n';
   output += 'I\'m a multi-purpose Discord bot, ready to help with all kinds of stuff! \n\n';
   output += 'Type `synus help` to get started.';
-  bot.echo(output, message);
+  bot.say(output, message);
 };

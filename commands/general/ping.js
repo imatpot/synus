@@ -7,7 +7,7 @@ exports.properties = {
 
 exports.execute = async (args, message, bot) => {
   let output = '';
-  let pong = await bot.echo('`Oh, a notification...`', message);
+  let pong = await bot.say('`Oh, a notification...`', message);
 
   // Output builder
   output += `${bot.emojis.get('565320633471467525').toString()}  `;

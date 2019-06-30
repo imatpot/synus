@@ -15,7 +15,7 @@ module.exports.execute = (args, message, bot) => {
   let output = '';
 
   // Output builder
-  output += 'STATISTICS \n\n';
+  output += 'STATISTICS  \n\n';
   output += `Uptime:     ${uptime}\n`;
   output += '\n';
   output += `Users:      ${bot.users.size.toLocaleString()}\n`;
@@ -25,5 +25,5 @@ module.exports.execute = (args, message, bot) => {
   output += `DiscordJS:  v${Discord.version}\n`;
   output += `Node:       ${process.version}`;
 
-  bot.echo(bot.formatter.apacheCodeBlock(output), message);
+  bot.say(bot.formatter.codeBlock(output, 'apache'), message);
 };

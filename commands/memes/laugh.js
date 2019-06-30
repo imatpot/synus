@@ -7,5 +7,5 @@ exports.properties = {
 
 exports.execute = (args, message, bot) => {
   message.delete(1000);
-  bot.echo('Haha, pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
+  bot.say('Haha, pinnacle of comedy! ' + bot.emojis.get('565932951351590912').toString(), message);
 };

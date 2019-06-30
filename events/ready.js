@@ -1,5 +1,5 @@
 module.exports = (bot) => {
-  bot.logger.notify(`[READY] ${bot.user.tag} booted successfully`);
+  bot.console.notify(`[READY] ${bot.user.tag} booted successfully`);
   bot.user.setPresence({
     game: {
       name: 'hide and seek with bugs',

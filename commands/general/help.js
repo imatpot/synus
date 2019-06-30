@@ -3,8 +3,6 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
-const prefixes = process.env.BOT_PREFIXES.split(',');
-
 exports.properties = {
   name: 'help',
   aliases: ['h'],
@@ -14,7 +12,8 @@ exports.properties = {
 
 exports.execute = (args, message, bot) => {
   let categoryTree = {};
-  const owner = (process.env.OWNER_ID === message.author.id);
+  const prefixes = bot.environment.BOT_PREFIXES.split(',');
+  const owner = (bot.environment.OWNER_ID === message.author.id);
   const commandsDirectory = path.resolve('./commands');
 
   // Load all categories
@@ -60,7 +59,7 @@ exports.execute = (args, message, bot) => {
 
     // Output builder
     for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
-    output += bot.formatter.apacheCodeBlock('PREFIXES' + spaces + prefixes.join(', '));
+    output += bot.formatter.codeBlock('PREFIXES' + spaces + prefixes.join(', '), 'apache');
 
     for (let cat in categoryTree) {
       part = '';
@@ -74,11 +73,11 @@ exports.execute = (args, message, bot) => {
         part += cmd.name + spaces + cmd.description + '\n';
       });
 
-      part = bot.formatter.apacheCodeBlock(part);
+      part = bot.formatter.codeBlock(part, 'apache');
 
       // Keep an eye on Discord message length limits
       if ((output + part).length > 2000) {
-        bot.echo(output, message);
+        bot.say(output, message);
         output = part;
       }
       else {
@@ -88,18 +87,18 @@ exports.execute = (args, message, bot) => {
 
     spaces = '';
     for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
-    part = bot.formatter.apacheCodeBlock('TIP' + spaces + 'For details, type synus help [command]');
+    part = bot.formatter.codeBlock('TIP' + spaces + 'For details, type synus help [command]', 'apache');
 
     // Keep an eye on Discord message length limits
     if ((output + part).length > 2000) {
-      bot.echo(output, message);
+      bot.say(output, message);
       output = part;
     }
     else {
       output += part;
     }
 
-    bot.echo(output, message);
+    bot.say(output, message);
   }
 
   // Help to specific command
@@ -121,7 +120,7 @@ exports.execute = (args, message, bot) => {
 
     // Command didn't result in valid outcome
     if (category === '' || command === {}) {
-      bot.echo(`Command \`${request}\` doesn't exist.`, message);
+      bot.say(`Command \`${request}\` doesn't exist.`, message);
       return;
     }
 
@@ -132,6 +131,6 @@ exports.execute = (args, message, bot) => {
     output += 'Description:  ' + command.description + '\n\n';
     output += 'Usage:        ' + command.usage;
 
-    bot.echo(bot.formatter.apacheCodeBlock(output), message);
+    bot.say(bot.formatter.codeBlock(output, 'apache'), message);
   }
 };
