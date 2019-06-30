@@ -1,5 +1,3 @@
-// Subscribe to PewDiePie
-
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 
@@ -13,20 +11,22 @@ exports.properties = {
 exports.execute = async (args, message, bot) => {
   // For the people who try to invoke with r/subreddit
   const subreddit = (args[0] === undefined) ? 'memes' : args[0].replace(/r\//g, '');
+
   let post = {};
   let user = {};
   let sub = {};
+
   let stop = false;
 
   await fetch(`https://api.reddit.com/r/${subreddit}/new.json?sort=new&limit=1`)
     .then((postResponse) => postResponse.json())
-    .then((postResponse) => {
-      if (postResponse.data.after === undefined) {
+    .then((postResponseJson) => {
+      if (postResponseJson.data.children[0] === undefined) {
         bot.say(`Sorry, the subreddit \`r/${subreddit}\` has restricted access or doesn't exist.`, message);
-        stop = true;
-      }
-      else {
-        post = postResponse.data.children[0].data;
+        stop = true; // Can't return from a .then() so I use a boolean
+      } else {
+        post = postResponseJson.data.children[0].data;
+        bot.console.log(`Fetched post from r/${subreddit}`);
       }
     });
 
@@ -34,33 +34,40 @@ exports.execute = async (args, message, bot) => {
 
   await fetch(`https://api.reddit.com/user/${post.author}/about.json`)
     .then((userResponse) => userResponse.json())
-    .then((userResponse) => user = userResponse.data);
+    .then((userResponseJson) => user = userResponseJson.data);
+
+  bot.console.log(`Fetched u/${post.author}`);
 
   await fetch(`https://api.reddit.com/r/${subreddit}/about.json`)
     .then((subredditResponse) => subredditResponse.json())
-    .then((subredditResponse) => sub = subredditResponse.data);
+    .then((subredditResponseJson) => sub = subredditResponseJson.data);
+    
+  bot.console.log(`Fetched details of r/${subreddit}`);
 
   const embed = new Discord.RichEmbed();
+
+  bot.console.log(`Building meme embed`);
 
   embed.setColor('#FF4500');
   embed.setTitle(post.title);
   embed.setURL('https://www.reddit.com' + post.permalink);
 
   // Catch deleted users
-  if (post.author === '[deleted]') embed.setAuthor('u/[deleted]', '', 'https://www.reddit.com');
-  else embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
+  post.author === '[deleted]'
+    ? embed.setAuthor('u/[deleted]', '', 'https://www.reddit.com')
+    : embed.setAuthor(`u/${user.name}`, user.icon_img.split('?')[0], `https://www.reddit.com/user/${user.name}`);
 
   // Catch NSFW content
   if (post.over_18) {
     embed.addField('This post is NSFW', 'I hid it for you, just in case.', true);
-  }
-  else {
+  } else {
     embed.setDescription(post.selftext);
     embed.setImage(post.url);
   }
 
-  embed.setTimestamp();
+  embed.setTimestamp(post.created_utc * 1000);
   embed.setFooter(post.subreddit_name_prefixed, sub.icon_img);
 
   bot.say(embed, message);
+  bot.console.log(`Posted meme embed`);
 };

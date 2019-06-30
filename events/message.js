@@ -31,8 +31,8 @@ module.exports = (bot, message) => {
 
   try {
     if (!bot.commands.has(command)) command = bot.aliases.get(command);
-    bot.commands.get(command).execute(args, message, bot);
     bot.console.command(`${message.author.tag} ran ${command.toUpperCase()} in ${message.guild.name} (${message.guild.id})`);
+    bot.commands.get(command).execute(args, message, bot);
   } catch (error) {
     bot.console.error(`${command.toUpperCase()} [${args}] => ${error}`);
     bot.say(`Hmm. That didn't work. Maybe try to run \`${command}\` again?`, message);

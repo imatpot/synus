@@ -6,8 +6,9 @@ exports.properties = {
 };
 
 exports.execute = (args, message, bot) => {
-  // Output builder
   let output = '';
+  
+  // Output builder
   output += 'Hello there! ';
   output += `My name is \`Synus\`${bot.emojis.get('544618533493932032').toString()} \n\n`;
   output += 'That\'s short for `systematically yielded, natively unobstrusive sidekick` \n';

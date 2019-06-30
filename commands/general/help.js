@@ -46,7 +46,8 @@ exports.execute = (args, message, bot) => {
 
   // General help, no command specified
   if (args.length === 0) {
-    let spaces = '';
+    bot.console.log('No command for HELP specified');
+
     let output = '';
     let part = '';
     let requiredNameLength = 'prefixes'.length + 3;
@@ -58,19 +59,14 @@ exports.execute = (args, message, bot) => {
     }
 
     // Output builder
-    for (let i = requiredNameLength; i > 'prefixes'.length; i--) { spaces += ' '; }
-    output += bot.formatter.codeBlock('PREFIXES' + spaces + prefixes.join(', '), 'apache');
+    output += bot.formatter.codeBlock('PREFIXES'.padEnd(requiredNameLength) + prefixes.join(', '), 'apache');
 
     for (let cat in categoryTree) {
       part = '';
 
       part += cat.toUpperCase() + '\n\n';
       categoryTree[cat].forEach((cmd) => {
-        spaces = '';
-        for (let i = requiredNameLength; i > cmd.name.length; i--) {
-          spaces += ' ';
-        }
-        part += cmd.name + spaces + cmd.description + '\n';
+        part += cmd.name.padEnd(requiredNameLength) + cmd.description + '\n';
       });
 
       part = bot.formatter.codeBlock(part, 'apache');
@@ -79,25 +75,20 @@ exports.execute = (args, message, bot) => {
       if ((output + part).length > 2000) {
         bot.say(output, message);
         output = part;
-      }
-      else {
+      } else {
         output += part;
       }
     }
 
-    spaces = '';
-    for (let i = requiredNameLength; i > 'tip'.length; i--) { spaces += ' '; }
-    part = bot.formatter.codeBlock('TIP' + spaces + 'For details, type synus help [command]', 'apache');
+    part = bot.formatter.codeBlock('TIP'.padEnd(requiredNameLength) + 'For details, type synus help [command]', 'apache');
 
     // Keep an eye on Discord message length limits
     if ((output + part).length > 2000) {
       bot.say(output, message);
       output = part;
-    }
-    else {
+    } else {
       output += part;
     }
-
     bot.say(output, message);
   }
 
@@ -117,6 +108,8 @@ exports.execute = (args, message, bot) => {
         }
       });
     }
+
+    bot.console.log(`Loading HELP for ${command.name.toUpperCase()}`);
 
     // Command didn't result in valid outcome
     if (category === '' || command === {}) {
