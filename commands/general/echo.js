@@ -7,5 +7,5 @@ exports.properties = {
 
 exports.execute = (args, message, bot) => {
   const content = Array.isArray(args) ? args.join(' ') : args;
-  message.channel.send(content);
+  return message.channel.send(content);
 };
