@@ -4,6 +4,7 @@
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
   "main": "synus.js",
   "scripts": {
+    "start": "node synus.js",
     "test": "echo \"No test specified in package.json\""
   },
   "repository": {
@@ -25,12 +26,12 @@
   },
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "discord.js": "^11.5.1",
-    "dotenv": "^7.0.0",
-    "moment": "^2.24.0",
+    "chalk": "^4.1.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.0",
-    "npm": "^6.9.2"
+    "npm": "^6.14.7"
   }
 }

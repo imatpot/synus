@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  synus:
+    image: node:latest
+    hostname: synus
+    container_name: synus
+    restart: always
+    env_file: .env
+    environment:
+      BOT_PREFIXES: "${BOT_PREFIXES}"
+      BOT_TOKEN: "${BOT_TOKEN}"
+      OWNER_ID: "${OWNER_ID}"
+    command: "npm start"
