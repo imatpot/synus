@@ -14,9 +14,9 @@ module.exports.execute = (args, message, bot) => {
   let output = '';
 
   const uptime = moment.duration(bot.uptime).format('D [days], H [hours], m [minutes], s [seconds]');
-  const users = bot.users.size.toLocaleString();
-  const servers = bot.guilds.size.toLocaleString();
-  const channels = bot.channels.size.toLocaleString();
+  const users = bot.users.cache.size.toLocaleString();
+  const servers = bot.guilds.cache.size.toLocaleString();
+  const channels = bot.channels.cache.size.toLocaleString();
   const discordJsVersion = 'v' + Discord.version;
   const nodeJsVersion = process.version;
 

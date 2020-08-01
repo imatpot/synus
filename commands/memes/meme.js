@@ -44,7 +44,7 @@ exports.execute = async (args, message, bot) => {
     
   bot.console.log(`Fetched details of r/${subreddit}`);
 
-  const embed = new Discord.RichEmbed();
+  const embed = new Discord.MessageEmbed();
 
   bot.console.log(`Building meme embed`);
 

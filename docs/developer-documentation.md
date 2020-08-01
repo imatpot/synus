@@ -73,5 +73,5 @@ They're either referenced directly in a string like
 
 Or fetched directly via the bot user like
 ```js
-bot.emojis.get('565320633471467525')
+bot.emojis.resolve('565320633471467525')
 ```

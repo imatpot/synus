@@ -9,7 +9,7 @@ module.exports = (bot, message) => {
   const prefix = args.shift().toLowerCase();
 
   // Ping by mention
-  if (message.isMentioned(bot.user.id)) bot.commands.get('ping').execute(args, message, bot);
+  if (message.mentions.has(bot.user.id)) bot.commands.get('ping').execute(args, message, bot);
 
   // Check if it has Synus' prefix
   if (!prefixes.includes(prefix)) return;
