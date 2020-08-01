@@ -2,7 +2,7 @@ version: "3"
 
 services:
   synus:
-    image: node:latest
+    build: .
     hostname: synus
     container_name: synus
     restart: always
