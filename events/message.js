@@ -35,6 +35,6 @@ module.exports = (bot, message) => {
     bot.commands.get(command).execute(args, message, bot);
   } catch (error) {
     bot.console.error(`${command.toUpperCase()} [${args}] => ${error}`);
-    bot.say(`Hmm. That didn't work. Maybe try to run \`${command}\` again?`, message);
+    bot.say(`Yikes, that didn't work. Maybe you can try running \`${command}\` again?`, message);
   }
 };

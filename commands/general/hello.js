@@ -31,6 +31,6 @@ exports.getGreeting = () => {
   return greeting.join(' ');
 };
 
-let getRandomInt = (max) => {
+const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 };
