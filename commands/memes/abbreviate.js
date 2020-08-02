@@ -25,15 +25,14 @@ exports.execute = async (args, message, bot) => {
     const messages = Array.from(messageMap.values());
     messages.sort((m) => m.createdTimestamp);
 
-    const targetMessage = messages.pop();
-    bot.console.debug(JSON.stringify(targetMessage));
+    const targetMessage = messages.pop().content;
 
-    if (!targetMessage.content.trim()) {
+    if (!targetMessage.trim()) {
       message.channel.send('Sorry, I can\'t abbreviate that message.');
       return;
     }
 
-    const targetString = targetMessage.content;
+    const targetString = targetMessage;
 
     let abbreviation = '';
 
