@@ -12,8 +12,14 @@ export default class Avatar extends Command {
       category: 'general',
       description: {
         content: 'avatar',
-        usage: 'avatar [member]',
-        examples: ['avatar', 'avatar @target#0001', 'avatar target'],
+        usage: 'avatar [member] (-s)',
+        examples: [
+          'avatar',
+          'avatar @target#0001',
+          'avatar target',
+          'avatar target -s 64',
+          'avatar target --size 12',
+        ],
       },
       args: [
         {
