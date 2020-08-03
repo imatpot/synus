@@ -19,11 +19,11 @@ export class Synus extends AkairoClient {
   public config: Config;
 
   public listenerHandler: ListenerHandler = new ListenerHandler(this, {
-    directory: join(__dirname, '..', 'events'),
+    directory: join(__dirname, 'events'),
   });
 
   public commandHandler: CommandHandler = new CommandHandler(this, {
-    directory: join(__dirname, '..', 'commands'),
+    directory: join(__dirname, 'commands'),
     prefix: botPrefixes.map((p) => p + ' '),
     commandUtil: true,
     commandUtilLifetime: 3e5, // 5 minutes

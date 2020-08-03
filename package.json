@@ -2,14 +2,13 @@
   "name": "synus",
   "version": "2.0.0",
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
-  "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "start": "tsc && node dist/bot.js",
+    "start": "tsc && node dist/index.js",
     "build": "tsc",
-    "run": "nodemon dist/bot.js",
+    "watch": "nodemon dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
