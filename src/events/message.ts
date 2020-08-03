@@ -11,20 +11,16 @@ export default class MessageEvent extends Listener {
   }
 
   public exec(message: Message): void {
+    // Only contains prefix and no command
+    if (this.isBotPrefix(message.content.trim())) {
+      message.channel.send('Ready to help! Type `synus help` to get started.');
+      return;
+    }
+
     const splitMessage: string[] = message.content.split(' ');
     const prefix: string = splitMessage.shift();
 
-    // If prefix is a simple string, match exact
-    const messageMatchesPrefixString: boolean =
-      typeof this.client.commandHandler.prefix === 'string' &&
-      this.client.commandHandler.prefix === prefix + ' ';
-
-    // If prefix is a string array, match any element
-    const messageMatchesPrefixArray: boolean =
-      typeof this.client.commandHandler.prefix === 'object' &&
-      this.client.commandHandler.prefix.includes(prefix + ' ');
-
-    if (messageMatchesPrefixString || messageMatchesPrefixArray) {
+    if (this.isBotPrefix(prefix)) {
       const command: string = splitMessage.shift();
 
       if (command) {
@@ -47,5 +43,19 @@ export default class MessageEvent extends Listener {
         );
       }
     }
+  }
+
+  private isBotPrefix(prefix: string): boolean {
+    // If prefix is a simple string, match exact
+    const messageMatchesPrefixString: boolean =
+      typeof this.client.commandHandler.prefix === 'string' &&
+      this.client.commandHandler.prefix === prefix + ' ';
+
+    // If prefix is a string array, match any element
+    const messageMatchesPrefixArray: boolean =
+      typeof this.client.commandHandler.prefix === 'object' &&
+      this.client.commandHandler.prefix.includes(prefix + ' ');
+
+    return messageMatchesPrefixString || messageMatchesPrefixArray;
   }
 }
