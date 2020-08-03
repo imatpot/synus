@@ -1,7 +1,7 @@
+import { botOwnerIds, botPrefixes } from '@src/config';
+import { Logger } from '@src/util/logger';
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
-import { botOwnerIds, botPrefixes } from '../config';
-import Console from '../util/console';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
@@ -15,9 +15,8 @@ interface Config {
   owners?: string[];
 }
 
-export default class Synus extends AkairoClient {
+export class Synus extends AkairoClient {
   public config: Config;
-  public console: Console = new Console();
 
   public listenerHandler: ListenerHandler = new ListenerHandler(this, {
     directory: join(__dirname, '..', 'events'),
@@ -26,7 +25,6 @@ export default class Synus extends AkairoClient {
   public commandHandler: CommandHandler = new CommandHandler(this, {
     directory: join(__dirname, '..', 'commands'),
     prefix: botPrefixes.map((p) => p + ' '),
-    handleEdits: true,
     commandUtil: true,
     commandUtilLifetime: 3e5, // 5 minutes
     ignorePermissions: botOwnerIds,
@@ -37,8 +35,15 @@ export default class Synus extends AkairoClient {
     this.config = config;
   }
 
+  public async start(): Promise<string> {
+    await this.init();
+
+    Logger.log('Logging in');
+    return this.login(this.config.token);
+  }
+
   private async init(): Promise<void> {
-    this.console.log('Initializing');
+    Logger.log('Initializing');
 
     this.commandHandler.useListenerHandler(this.listenerHandler);
 
@@ -48,17 +53,10 @@ export default class Synus extends AkairoClient {
       process,
     });
 
-    this.console.log('Loading commands');
+    Logger.log('Loading commands');
     this.commandHandler.loadAll();
 
-    this.console.log('Loading event listeners');
+    Logger.log('Loading event listeners');
     this.listenerHandler.loadAll();
-  }
-
-  public async start(): Promise<string> {
-    await this.init();
-
-    this.console.log('Logging in');
-    return this.login(this.config.token);
   }
 }

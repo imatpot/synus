@@ -1,5 +1,5 @@
 import { blue, gray, green, magenta, red, yellow } from 'chalk';
-import moment, { Moment } from 'moment'; // TODO: Minimize import
+import { format } from 'date-fns';
 
 enum LogType {
   LOG = 'LOG',
@@ -11,11 +11,9 @@ enum LogType {
   NEWLINE = 'NEWLINE',
 }
 
-export default class Console {
-  private moment: Moment = moment();
-
-  public log(content: string, type: LogType = LogType.LOG): void {
-    const timestamp = `[${this.moment.format('YYYY-MM-DD HH:mm:ss')}]`;
+export class Logger {
+  public static log(content: string, type: LogType = LogType.LOG): void {
+    const timestamp = `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}]`;
 
     switch (type) {
       case LogType.LOG:
@@ -48,27 +46,27 @@ export default class Console {
     }
   }
 
-  public error(content: string): void {
+  public static error(content: string): void {
     this.log(content, LogType.ERROR);
   }
 
-  public command(content: string): void {
+  public static command(content: string): void {
     this.log(content, LogType.COMMAND);
   }
 
-  public warn(content: string): void {
+  public static warn(content: string): void {
     this.log(content, LogType.WARNING);
   }
 
-  public debug(content: string): void {
+  public static debug(content: string): void {
     this.log(content, LogType.DEBUG);
   }
 
-  public notify(content: string): void {
+  public static notify(content: string): void {
     this.log(content, LogType.NOTIFICATION);
   }
 
-  public newLine(content: string): void {
+  public static newLine(content: string): void {
     this.log(content, LogType.NEWLINE);
   }
 }

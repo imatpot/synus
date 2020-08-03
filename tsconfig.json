@@ -18,24 +18,24 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-  },
-  "baseUrl": ".",
-  "paths": {
-    "@src/*": [
-      "src/*"
-    ],
-    "@client/*": [
-      "src/client/*"
-    ],
-    "@commands/*": [
-      "src/commands/*"
-    ],
-    "@events/*": [
-      "src/events/*"
-    ],
-    "@util/*": [
-      "src/util/*"
-    ]
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@client/*": [
+        "src/client/*"
+      ],
+      "@commands/*": [
+        "src/commands/*"
+      ],
+      "@events/*": [
+        "src/events/*"
+      ],
+      "@util/*": [
+        "src/util/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"

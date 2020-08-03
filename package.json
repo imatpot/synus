@@ -8,6 +8,8 @@
   },
   "scripts": {
     "start": "tsc && node dist/bot.js",
+    "build": "tsc",
+    "run": "nodemon dist/bot.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
@@ -29,12 +31,21 @@
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
     "chalk": "^4.1.0",
+    "date-fns": "^2.15.0",
     "discord-akairo": "github:1Computer1/discord-akairo",
     "discord.js": "github:discordjs/discord.js",
-    "module-alias": "^2.2.2",
-    "moment": "^2.27.0"
+    "module-alias": "^2.2.2"
   },
   "devDependencies": {
-    "@types/node": "^14.0.27"
+    "@microsoft/tsdoc": "^0.12.20",
+    "@types/node": "^14.0.27",
+    "nodemon": "^2.0.4"
+  },
+  "_moduleAliases": {
+    "@src": "dist",
+    "@client": "dist/client",
+    "@commands": "dist/commands",
+    "@events": "dist/events",
+    "@util": "dist/util"
   }
 }
