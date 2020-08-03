@@ -7,37 +7,45 @@ export default class MessageEvent extends Listener {
     super('message', {
       emitter: 'client',
       event: 'message',
-      category: 'client',
     });
   }
 
-  public async exec(message: Message): Promise<void> {
+  public exec(message: Message): void {
     const splitMessage: string[] = message.content.split(' ');
-    const prefix: string = splitMessage[0];
+    const prefix: string = splitMessage.shift();
 
-    // If prefix is a simple string
+    // If prefix is a simple string, match exact
     const messageMatchesPrefixString: boolean =
       typeof this.client.commandHandler.prefix === 'string' &&
       this.client.commandHandler.prefix === prefix + ' ';
 
-    // If prefix is a string array
+    // If prefix is a string array, match any element
     const messageMatchesPrefixArray: boolean =
       typeof this.client.commandHandler.prefix === 'object' &&
       this.client.commandHandler.prefix.includes(prefix + ' ');
 
     if (messageMatchesPrefixString || messageMatchesPrefixArray) {
-      const command: string = splitMessage[1];
+      const command: string = splitMessage.shift();
 
-      if (!this.client.commandHandler.findCommand(command)) {
-        message.channel.send(`Command \`${command}\` doesn't exist.`);
-        return;
+      if (command) {
+        const args: string = splitMessage.join(' ');
+
+        if (!this.client.commandHandler.findCommand(command)) {
+          message.channel.send(`Command \`${command}\` doesn't exist.`);
+          Logger.command(
+            `${message.author.tag} tried running ${command.toUpperCase()} ${
+              args ? `with args [ ${args} ]` : ''
+            } in ${message.guild.name} (${message.guild.id})`
+          );
+          return;
+        }
+
+        Logger.command(
+          `${message.author.tag} ran ${command.toUpperCase()} ${
+            args ? `with args [ ${args} ]` : ''
+          } in ${message.guild.name} (${message.guild.id})`
+        );
       }
-
-      Logger.command(
-        `${message.author.tag} ran ${command.toUpperCase()} in ${message.guild.name} (${
-          message.guild.id
-        })`
-      );
     }
   }
 }

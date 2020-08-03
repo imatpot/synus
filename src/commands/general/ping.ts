@@ -18,7 +18,7 @@ export default class Ping extends Command {
   }
 
   public async exec(message: Message): Promise<void> {
-    const pong = await message.util.send('Pinging...');
+    const pong = await message.channel.send('Pinging...');
 
     const synusLatency = `${pong.createdTimestamp - message.createdTimestamp}ms`;
     const discordApiLatency = `${Math.round(this.client.ws.ping)}ms`;

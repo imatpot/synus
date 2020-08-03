@@ -6,11 +6,10 @@ export default class ReadyEvent extends Listener {
     super('ready', {
       emitter: 'client',
       event: 'ready',
-      category: 'client',
     });
   }
 
-  public async exec(): Promise<void> {
+  public exec(): void {
     Logger.notify(`${this.client.user.tag} is now online`);
 
     this.client.user.setPresence({

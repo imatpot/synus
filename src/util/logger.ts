@@ -12,7 +12,7 @@ enum LogType {
 }
 
 export class Logger {
-  public static log(content: string, type: LogType = LogType.LOG): void {
+  public static log(content: any, type: LogType = LogType.LOG): void {
     const timestamp = `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}]`;
 
     switch (type) {
@@ -46,27 +46,27 @@ export class Logger {
     }
   }
 
-  public static error(content: string): void {
+  public static error(content: any): void {
     this.log(content, LogType.ERROR);
   }
 
-  public static command(content: string): void {
+  public static command(content: any): void {
     this.log(content, LogType.COMMAND);
   }
 
-  public static warn(content: string): void {
+  public static warn(content: any): void {
     this.log(content, LogType.WARNING);
   }
 
-  public static debug(content: string): void {
+  public static debug(content: any): void {
     this.log(content, LogType.DEBUG);
   }
 
-  public static notify(content: string): void {
+  public static notify(content: any): void {
     this.log(content, LogType.NOTIFICATION);
   }
 
-  public static newLine(content: string): void {
+  public static newLine(content: any): void {
     this.log(content, LogType.NEWLINE);
   }
 }

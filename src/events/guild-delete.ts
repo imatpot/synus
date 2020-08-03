@@ -7,11 +7,10 @@ export default class GuildDeleteEvent extends Listener {
     super('guildDelete', {
       emitter: 'client',
       event: 'guildDelete',
-      category: 'client',
     });
   }
 
-  public async exec(guild: Guild): Promise<void> {
+  public exec(guild: Guild): void {
     Logger.error(
       `[GUILD LEAVE] ${this.client.user.tag} was removed from ${guild.name} (${guild.id})`
     );

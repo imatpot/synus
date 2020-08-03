@@ -6,11 +6,10 @@ export default class ErrorEvent extends Listener {
     super('error', {
       emitter: 'client',
       event: 'error',
-      category: 'client',
     });
   }
 
-  public async exec(error: Error): Promise<void> {
+  public exec(error: Error): void {
     Logger.error(`Discord.js has thrown an error:\n\n${JSON.stringify(error)}`);
   }
 }

@@ -24,10 +24,12 @@ export class Synus extends AkairoClient {
 
   public commandHandler: CommandHandler = new CommandHandler(this, {
     directory: join(__dirname, 'commands'),
+    // Add space to each prefix
     prefix: botPrefixes.map((p) => p + ' '),
     commandUtil: true,
     commandUtilLifetime: 3e5, // 5 minutes
     ignorePermissions: botOwnerIds,
+    allowMention: true,
   });
 
   public constructor(config: Config) {

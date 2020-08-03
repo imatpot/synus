@@ -1,8 +1,10 @@
+import { Logger } from '@src/util/logger';
+import { TextFormatter } from '@src/util/text-formatter';
 import { Command } from 'discord-akairo';
 import { GuildMember, ImageSize, Message, MessageEmbed } from 'discord.js';
 
 export default class Avatar extends Command {
-  private imageSizes = [16, 32, 54, 128, 256, 512, 1024, 2048];
+  private imageSizes = [16, 32, 64, 128, 256, 512, 1024, 2048];
 
   public constructor() {
     super('avatar', {
@@ -11,7 +13,7 @@ export default class Avatar extends Command {
       description: {
         content: 'avatar',
         usage: 'avatar [member]',
-        examples: ['avatar', 'avatar @Host#0001', 'avatar host'],
+        examples: ['avatar', 'avatar @target#0001', 'avatar target'],
       },
       args: [
         {
@@ -22,28 +24,32 @@ export default class Avatar extends Command {
         },
         {
           id: 'size',
-          type: (_: Message, str: string): null | number => {
-            const size = Number(str || 'NaN');
-            if (!isNaN(size) && this.imageSizes.includes(size)) return size;
-            else return null;
-          },
+          type: (_: Message, value: string): null | number =>
+            isNaN(Number(value)) ? null : Number(value),
           match: 'option',
           flag: ['--size ', '-s '],
-          default: 2048,
         },
       ],
     });
   }
 
-  public async exec(
-    message: Message,
-    args: { member: GuildMember; size: number }
-  ): Promise<Message> {
-    return message.util.send(
+  public exec(message: Message, args: { member: GuildMember; size: number }): void {
+    if (!args.size) args.size = 2048;
+
+    if (!this.imageSizes.includes(args.size)) {
+      message.channel.send(
+        `Size must be element of ${TextFormatter.monospace(`[ ${this.imageSizes.join(', ')} ]`)}`
+      );
+      return;
+    }
+
+    message.channel.send(
       new MessageEmbed()
         .setTitle(`Avatar of ${args.member.user.tag}`)
         .setColor('RANDOM')
         .setImage(args.member.user.displayAvatarURL({ size: args.size as ImageSize }))
     );
+
+    Logger.log(`Fetched avatar of ${args.member.user.tag}`);
   }
 }
