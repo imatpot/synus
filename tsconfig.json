@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2018",
+    "outDir": "dist",
+    "lib": [
+      "ESNext",
+      "ESNext.Array",
+      "ESNext.AsyncIterable",
+      "ESNext.Intl",
+      "ESNext.Symbol",
+      "DOM"
+    ],
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+  },
+  "baseUrl": ".",
+  "paths": {
+    "@src/*": [
+      "src/*"
+    ],
+    "@client/*": [
+      "src/client/*"
+    ],
+    "@commands/*": [
+      "src/commands/*"
+    ],
+    "@events/*": [
+      "src/events/*"
+    ],
+    "@util/*": [
+      "src/util/*"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}

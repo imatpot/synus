@@ -91,3 +91,6 @@ config.json
 
 # my command template
 command-template.js
+
+src/config.ts
+dist/
