@@ -1,7 +1,7 @@
 # Developer documentation
 
 If you want to work Synus' source code yourself, here's a few things to take a look at before
-booting him up the first time.
+booting them up the first time.
 
 I'll try my best to keep these as up-to-date as possible. However, if you do run into any issues
 regarding anything missing in this file, make sure to notify me!
@@ -16,59 +16,38 @@ to do anything with the bot itself.
 |-----------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html).||are neat |
 
-## Environment variables
+## Bot config
 
-Rather than a simple `config.json`, Synus uses environment variables to store data. You can store
-your environment variables in the system you want Synus to run in. However, a `.env` file in your
-project root will suffice during development.
+In `src/` you will find a file called [`config-sample.ts`](../src/config-sample.ts) which contains several config variables. Fill in your details and save the file as `config.ts`
+r the list of the required environment variables.
 
-The `.env` file will look something like this:
-
-```md
-BOT_PREFIXES="synus,s"
-BOT_TOKEN="U1Tr4.53cR3t-T0k3N"
-```
-
-### What you need
-
-Now for the list of the required environment variables.
-
-| Variable name | Expected value                                                                                 |
-|---------------|------------------------------------------------------------------------------------------------|
-| BOT_PREFIXES  | A pseudo-array of prefixes, values separated by commas. <br> Example: `BOT_PREFIXES="synus,s"` |
-| BOT_TOKEN     | Your bot user token. More infos in [this section](#API-keys-&-tokens).                         |
-| OWNER_ID      | The ID of *your own* Discord user. This is required for some owner-only commands.              |
+| Variable name | Expected value                                                                   |
+|---------------|----------------------------------------------------------------------------------|
+| DISCORD_TOKEN | Your bot user token. More info in [this section](#API-keys-&-tokens).            |
+| PREFIXES      | An array of prefixes for your bot. Use these to invoke commands.                 |
+| OWNERS        | The ID of any Discord users you want to have access to some owner-only commands. |
 
 ## Custom emoji
 
-Synus uses some custom emoji to emphasize his character. I'll provide a list of all occurences of
-custom emoji, since they are a pain to track down. You can either replace or remove them, none
-are essential for anything to work. If you do replace them, make sure your bot is in a server
-with that specific emote at all times!
+Synus uses some custom emoji to emphasize their character. You can enter your emoji IDs [`src/data/emojis.ts`](../src/data/emojis.ts)
 
-| Custom emoji occurences                                     | Approximate location     |
-|-------------------------------------------------------------|--------------------------|
-| [`data/greetings.json`](../data/greetings.json)             | End of `greetings` array |
-| [`commands/general/about.js`](../commands/general/about.js) | `output` builder         |
-| [`commands/general/ping.js`](../commands/general/ping.js)   | `output` builder         |
-
-### Where do I find the emoji ID for my custom emoji?
+### Where to find the emoji ID for custom emoji
 
 You can get the emoji ID by sending `\:emoji_name:` into any channel that your emoji is accessible
-in. For example, the input`\:mavna:` will result in `<:mavna:520310830240366602>` in my bot emoji
+in. For example, the input`\:ping:` will result in `<:ping:565320633471467525>` in my bot emoji
 host server.
 
-### Having trouble finding the emoji in my code?
+### Finding custom emoji in code
 
 Usually, custom emoji are retrieved via one of two methods.<br>
-They're either referenced directly in a string like
+They're either referenced directly in a string like so
 
-```md
-<:mavna:520310830240366602>
+```ts
+`<:_:${emojis.ping}>`
 ```
 
-Or fetched directly via the bot user like
+or fetched directly via the bot user like so
 
-```js
-bot.emojis.resolve('565320633471467525')
+```ts
+this.client.emojis.resolve('565320633471467525')
 ```

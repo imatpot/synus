@@ -91,3 +91,9 @@ config.json
 
 # my command template
 command-template.js
+
+# config and tokens
+src/config.ts
+
+# compiled files
+dist/

@@ -1,24 +1,26 @@
 {
   "name": "synus",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
-  "main": "synus.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
-    "start": "node synus.js",
-    "watch": "nodemon synus.js",
-    "test": "echo \"No test specified in package.json\""
+    "start": "tsc && node dist/index.js",
+    "build": "tsc",
+    "watch": "nodemon dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mladenbrankovic/synus.git"
+    "url": "git+https://github.com/mladenbrankovic/synus.git"
   },
   "keywords": [
     "synus",
-    "discord.js",
     "discord",
     "bot",
-    "js",
-    "javascript"
+    "ts",
+    "typescript"
   ],
   "author": "@mladenbrankovic",
   "license": "MIT",
@@ -28,14 +30,23 @@
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
     "chalk": "^4.1.0",
+    "date-fns": "^2.15.0",
+    "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0",
-    "moment": "^2.27.0",
-    "moment-duration-format": "^2.3.2",
+    "module-alias": "^2.2.2",
     "node-fetch": "^2.6.0",
-    "npm": "^6.14.7"
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
+    "@types/node": "^14.0.27",
+    "@types/node-fetch": "^2.5.7",
     "nodemon": "^2.0.4"
+  },
+  "_moduleAliases": {
+    "@src": "dist",
+    "@commands": "dist/commands",
+    "@data": "dist/data",
+    "@events": "dist/events",
+    "@util": "dist/util"
   }
 }
