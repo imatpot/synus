@@ -8,7 +8,7 @@ export default class Help extends Command {
       aliases: ['help', 'h'],
       category: 'General',
       description: {
-        content: 'Let me show you what I can do.',
+        content: 'Shows an overview of commands or details of one specific command.',
         usage: 'synus help [ command:string ]',
       },
       args: [
