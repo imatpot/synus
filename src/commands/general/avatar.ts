@@ -1,5 +1,5 @@
-import { Logger } from '@src/util/logger';
-import { TextFormatter } from '@src/util/text-formatter';
+import { Logger } from '@util/logger';
+import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { GuildMember, ImageSize, Message, MessageEmbed } from 'discord.js';
 

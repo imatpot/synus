@@ -1,4 +1,4 @@
-import { Logger } from '@src/util/logger';
+import { Logger } from '@util/logger';
 import { Listener } from 'discord-akairo';
 
 export default class ReadyEvent extends Listener {

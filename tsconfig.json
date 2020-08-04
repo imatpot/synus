@@ -18,24 +18,21 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@src/*": [
-        "src/*"
-      ],
-      "@client/*": [
-        "src/client/*"
-      ],
       "@commands/*": [
-        "src/commands/*"
+        "commands/*"
+      ],
+      "@data/*": [
+        "data/*"
       ],
       "@events/*": [
-        "src/events/*"
+        "events/*"
       ],
       "@util/*": [
-        "src/util/*"
+        "util/*"
       ]
-    }
+    },
   },
   "include": [
     "src/**/*"

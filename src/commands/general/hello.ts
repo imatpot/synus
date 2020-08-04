@@ -1,4 +1,4 @@
-import { greetings } from '@src/data/greetings';
+import { greetings } from '@data/greetings';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 

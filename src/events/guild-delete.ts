@@ -1,4 +1,4 @@
-import { Logger } from '@src/util/logger';
+import { Logger } from '@util/logger';
 import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
 

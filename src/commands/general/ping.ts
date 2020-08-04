@@ -1,6 +1,6 @@
-import { emojis } from '@src/data/emojis';
-import { Logger } from '@src/util/logger';
-import { TextFormatter } from '@src/util/text-formatter';
+import { emojis } from '@data/emojis';
+import { Logger } from '@util/logger';
+import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 

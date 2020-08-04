@@ -1,7 +1,7 @@
-import { botOwnerIds, botPrefixes } from '@src/config';
-import { Logger } from '@src/util/logger';
+import { Logger } from '@util/logger';
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
 import { join } from 'path';
+import { OWNERS, PREFIXES } from './config';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
@@ -25,10 +25,10 @@ export class Synus extends AkairoClient {
   public commandHandler: CommandHandler = new CommandHandler(this, {
     directory: join(__dirname, 'commands'),
     // Add space to each prefix
-    prefix: botPrefixes.map((p) => p + ' '),
+    prefix: PREFIXES,
     commandUtil: true,
     commandUtilLifetime: 3e5, // 5 minutes
-    ignorePermissions: botOwnerIds,
+    ignorePermissions: OWNERS,
     allowMention: true,
   });
 
