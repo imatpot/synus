@@ -1,9 +1,8 @@
 # Synus
 
-The _**s**ystematically **y**ielded, **n**atively **u**nobstrusive **s**idekick_ is a multi-purpose bot for Discord.
+The _**s**ystematically **y**ielded, **n**atively **u**nobstrusive **s**idekick_ is TypeScript-powered a multi-purpose bot for Discord.
 
-[<img src="https://seeklogo.com/images/T/typescript-logo-B29A3F462D-seeklogo.com.png" alt="TypeScript" height="40" style="margin-right: 1em">](https://www.typescriptlang.org)
-[<img src="https://discord-akairo.github.io/static/logo.png" alt="Discord Akairo" height="40">](https://discord-akairo.github.io)
+[<img src="https://discord-akairo.github.io/static/logo.png" alt="Discord Akairo" height="20">](https://discord-akairo.github.io)
 
 ## Getting started
 
