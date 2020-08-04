@@ -7,6 +7,10 @@ declare module 'discord-akairo' {
   interface AkairoClient {
     commandHandler: CommandHandler;
     listenerHandler: ListenerHandler;
+    prefixArray: string[];
+
+    isBotPrefix(prefix: string): boolean;
+    hasCommand(command: string): boolean;
   }
 }
 
@@ -30,6 +34,8 @@ export class Synus extends AkairoClient {
     commandUtilLifetime: 3e5, // 5 minutes
     ignorePermissions: OWNERS,
     allowMention: true,
+    blockBots: true,
+    blockClient: true,
   });
 
   public constructor(config: Config) {
@@ -60,5 +66,34 @@ export class Synus extends AkairoClient {
 
     Logger.log('Loading event listeners');
     this.listenerHandler.loadAll();
+  }
+
+  /**
+   * Returns the bot's prefix(es) as an array.
+   *
+   * @param bot Discord bot client
+   */
+  public get prefixArray(): string[] {
+    if (typeof this.commandHandler.prefix === 'string') return [this.commandHandler.prefix];
+    else if (typeof this.commandHandler.prefix === 'object') return this.commandHandler.prefix;
+    else return [];
+  }
+
+  /**
+   * Checks if a given string is one of the bot's prefixes.
+   *
+   * @param prefix string to be checked
+   */
+  public isBotPrefix(prefix: string): boolean {
+    return this.prefixArray.includes(prefix + ' ');
+  }
+
+  /**
+   * Checks if a given string is one of the bot's prefixes.
+   *
+   * @param prefix string to be checked
+   */
+  public hasCommand(command: string): boolean {
+    return this.commandHandler.findCommand(command) !== undefined;
   }
 }

@@ -9,7 +9,7 @@ export default class Ping extends Command {
       aliases: Array.from(new Set(greetings.greetings.map((s) => s.split('  ')[1].toLowerCase()))),
       category: 'General',
       description: {
-        content: 'Say hello!',
+        content: 'Greet me.',
         usage: 'synus hello',
       },
     });

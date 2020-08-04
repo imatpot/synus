@@ -3,12 +3,12 @@ import { Message } from 'discord.js';
 
 export default class Echo extends Command {
   public constructor() {
-    super('echo', {
-      aliases: ['echo', 'say'],
+    super('say', {
+      aliases: ['say', 'echo'],
       category: 'General',
       description: {
         content: "I'll repeat after you.",
-        usage: 'synus echo [ text:string ]',
+        usage: 'synus say [ text:string ]',
       },
     });
   }

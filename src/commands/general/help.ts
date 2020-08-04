@@ -1,4 +1,3 @@
-import { BotUtils } from '@util/bot-utils';
 import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
@@ -37,7 +36,53 @@ export default class Echo extends Command {
    * @param message original command-invoking message
    */
   private helpOverview(message: Message): void {
-    
+    let firstColumnWidth = 'PREFIXES'.length + 3;
+
+    const categories = this.client.commandHandler.categories;
+
+    for (let category of categories.values()) {
+      if (category.id.length + 3 > firstColumnWidth) firstColumnWidth = category.id.length + 3;
+    }
+
+    let output = TextFormatter.codeBlock(
+      'PREFIXES'.padEnd(firstColumnWidth) + this.client.prefixArray.map((p) => p.trim()).join(', '),
+      'apache'
+    );
+
+    let part = '';
+
+    for (const category of categories.values()) {
+      part = category.id.toUpperCase() + '\n\n';
+
+      for (const command of category.values()) {
+        part += command.id.padEnd(firstColumnWidth) + command.description.content + '\n';
+      }
+
+      part = TextFormatter.codeBlock(part, 'apache');
+
+      // Stay inside Discord message length limit
+      if ((output + part).length > 2000) {
+        message.channel.send(output);
+        output = part;
+      } else {
+        output += part;
+      }
+    }
+
+    part = TextFormatter.codeBlock(
+      'TIP'.padEnd(firstColumnWidth) + 'For details, type synus help [ command:string ]',
+      'apache'
+    );
+
+    // Stay inside Discord message length limit
+    if ((output + part).length > 2000) {
+      message.channel.send(output);
+      output = part;
+    } else {
+      output += part;
+    }
+
+    message.channel.send(output);
   }
 
   /**
@@ -53,7 +98,7 @@ export default class Echo extends Command {
    * @param command command to be explained
    */
   private helpOfCommand(message: Message, command: string): void {
-    if (!BotUtils.hasCommand(this.client, command)) {
+    if (!this.client.hasCommand(command)) {
       message.channel.send(`Command \`${command}\` doesn't exist.`);
       return;
     }
