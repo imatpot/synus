@@ -10,16 +10,17 @@ export default class Echo extends Command {
         content: "I'll repeat after you.",
         usage: 'synus say [ text:string ]',
       },
+      args: [
+        {
+          id: 'text',
+          type: 'string',
+          match: 'rest',
+        },
+      ],
     });
   }
 
-  public exec(message: Message): void {
-    // Remove prefix and command
-    const echo = message.content
-      .split(' ')
-      .splice(2, message.content.split(' ').length - 1)
-      .join(' ');
-
-    message.channel.send(echo || 'Ehrm, what should I repeat?');
+  public exec(message: Message, args: { text: string }): void {
+    message.channel.send(args.text || 'Ehrm, what should I repeat?');
   }
 }

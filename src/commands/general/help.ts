@@ -40,8 +40,12 @@ export default class Echo extends Command {
 
     const categories = this.client.commandHandler.categories;
 
-    for (let category of categories.values()) {
+    for (const category of categories.values()) {
       if (category.id.length + 3 > firstColumnWidth) firstColumnWidth = category.id.length + 3;
+
+      for (const command of category.values()) {
+        if (command.id.length + 3 > firstColumnWidth) firstColumnWidth = command.id.length + 3;
+      }
     }
 
     let output = TextFormatter.codeBlock(
