@@ -16,7 +16,7 @@ export default class Reddit extends Command {
   public constructor() {
     super('reddit', {
       aliases: ['reddit', 'meme'],
-      category: 'General',
+      category: 'Humor',
       description: {
         content: 'Fetches the first lit meme from any subreddit and any section.',
         usage: "synus meme [ subreddit:string = 'memes' ] [ section:string = 'new' ]",

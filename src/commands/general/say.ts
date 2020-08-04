@@ -1,3 +1,4 @@
+import { Logger } from '@util/logger';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
@@ -22,5 +23,6 @@ export default class Say extends Command {
 
   public exec(message: Message, args: { text: string }): void {
     message.channel.send(args.text || 'Ehrm, what should I repeat?');
+    if (args.text) Logger.log(`Said "${args.text}"`);
   }
 }

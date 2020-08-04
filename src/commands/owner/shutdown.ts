@@ -23,7 +23,7 @@ export default class Shutdown extends Command {
       return;
     }
 
-    Logger.notify('[SHUTDOWN] Synus is shutting down');
+    Logger.notify('Synus is shutting down');
     await message.channel.send("My battery is low and it's getting dark...");
 
     this.client.destroy();

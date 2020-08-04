@@ -40,14 +40,15 @@ export default class Help extends Command {
 
     const categories = this.client.commandHandler.categories;
 
+    // Check required width for first column for proper indents
     for (const category of categories.values()) {
       if (category.id.length + 3 > firstColumnWidth) firstColumnWidth = category.id.length + 3;
-
       for (const command of category.values()) {
         if (command.id.length + 3 > firstColumnWidth) firstColumnWidth = command.id.length + 3;
       }
     }
 
+    // Display prefixes
     let output = TextFormatter.codeBlock(
       'PREFIXES'.padEnd(firstColumnWidth) + this.client.prefixArray.map((p) => p.trim()).join(', '),
       'apache'
@@ -76,6 +77,7 @@ export default class Help extends Command {
       }
     }
 
+    // Add tip
     part = TextFormatter.codeBlock(
       'TIP'.padEnd(firstColumnWidth) + 'For details, type synus help [ command:string ]',
       'apache'
@@ -105,11 +107,13 @@ export default class Help extends Command {
    * @param command command to be explained
    */
   private helpOfCommand(message: Message, command: string): void {
+    // Check if command exists
     if (!this.client.hasCommand(command)) {
       message.channel.send(`No can do, command \`${command}\` doesn't exist.`);
       return;
     }
 
+    // Get command
     const commandObject = this.client.commandHandler.findCommand(command);
 
     let response = '';

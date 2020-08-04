@@ -1,3 +1,4 @@
+import { Logger } from '@util/logger';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
@@ -46,5 +47,6 @@ export default class Abbreviate extends Command {
     }
 
     message.channel.send(abbreviation);
+    Logger.log(`Abbreviated "${targetMessage}" to "${abbreviation}"`);
   }
 }

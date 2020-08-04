@@ -1,4 +1,5 @@
 import { greetings } from '@data/greetings';
+import { Logger } from '@util/logger';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
@@ -16,7 +17,10 @@ export default class Hello extends Command {
   }
 
   public exec(message: Message): void {
-    message.channel.send(greetings.greetings[this.randomInt(greetings.greetings.length)]);
+    const greeting = greetings.greetings[this.randomInt(greetings.greetings.length)];
+    message.channel.send(greeting);
+
+    Logger.log(`Greeted ${message.author.tag} saying ${greeting}`);
   }
 
   /**

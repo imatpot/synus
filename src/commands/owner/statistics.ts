@@ -49,5 +49,13 @@ export default class Statistics extends Command {
     response += `Node        ${nodeJsVersion}`;
 
     message.channel.send(TextFormatter.codeBlock(response, 'apache'));
+
+    Logger.log('STATISTICS');
+    Logger.log(`Uptime      ${uptime}`);
+    Logger.log(`Users       ${users}`);
+    Logger.log(`Servers     ${servers}`);
+    Logger.log(`Channels    ${channels}`);
+    Logger.log(`DiscordJS   ${discordJsVersion}`);
+    Logger.log(`Node        ${nodeJsVersion}`);
   }
 }
