@@ -27,7 +27,7 @@ export default class MessageEvent extends Listener {
         const args = splitMessage.join(' ');
 
         if (!this.client.hasCommand(command)) {
-          message.channel.send(`Command \`${command}\` doesn't exist.`);
+          message.channel.send(`No can do, command \`${command}\` doesn't exist.`);
           Logger.command(
             `${message.author.tag} tried running ${command.toUpperCase()}${
               args ? ` with args [ ${args} ]` : ''

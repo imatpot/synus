@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-export default class Echo extends Command {
+export default class Say extends Command {
   public constructor() {
     super('say', {
       aliases: ['say', 'echo'],

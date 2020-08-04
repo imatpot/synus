@@ -2,7 +2,7 @@ import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-export default class Echo extends Command {
+export default class Help extends Command {
   public constructor() {
     super('help', {
       aliases: ['help', 'h'],
@@ -55,7 +55,10 @@ export default class Echo extends Command {
 
     let part = '';
 
-    for (const category of categories.values()) {
+    for (const [key, category] of categories) {
+      // Hide Owner commands from non-owners
+      if (key === 'Owner' && !this.client.isOwner(message.author)) continue;
+
       part = category.id.toUpperCase() + '\n\n';
 
       for (const command of category.values()) {
@@ -103,7 +106,7 @@ export default class Echo extends Command {
    */
   private helpOfCommand(message: Message, command: string): void {
     if (!this.client.hasCommand(command)) {
-      message.channel.send(`Command \`${command}\` doesn't exist.`);
+      message.channel.send(`No can do, command \`${command}\` doesn't exist.`);
       return;
     }
 
@@ -113,10 +116,10 @@ export default class Echo extends Command {
 
     response += commandObject.id.toUpperCase() + '\n\n';
 
-    response += `Category:     ${commandObject.categoryID}\n`;
-    response += `Aliases:      ${commandObject.aliases.join(', ')}\n`;
-    response += `Description:  ${commandObject.description.content}\n\n`;
-    response += `Usage:        ${commandObject.description.usage}`;
+    response += `Category      ${commandObject.categoryID}\n`;
+    response += `Aliases       ${commandObject.aliases.join(', ')}\n`;
+    response += `Description   ${commandObject.description.content}\n\n`;
+    response += `Usage         ${commandObject.description.usage}`;
 
     message.channel.send(TextFormatter.codeBlock(response, 'apache'));
   }

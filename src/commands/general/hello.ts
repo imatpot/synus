@@ -2,7 +2,7 @@ import { greetings } from '@data/greetings';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-export default class Ping extends Command {
+export default class Hello extends Command {
   public constructor() {
     super('hello', {
       // All unique greeting strings

@@ -22,7 +22,7 @@ export class Logger {
    * @param type optional type of log
    */
   public static log(content: any, type: LogType = LogType.LOG): void {
-    const timestamp = `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}]`;
+    const timestamp = `[${format(new Date(), 'u-MM-dd HH:mm:ss')}]`;
 
     switch (type) {
       case LogType.LOG:

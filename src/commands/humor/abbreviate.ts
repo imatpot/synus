@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
-export default class Echo extends Command {
+export default class Abbreviate extends Command {
   public constructor() {
     super('abbreviate', {
       aliases: ['abbreviate', 'abbr'],
