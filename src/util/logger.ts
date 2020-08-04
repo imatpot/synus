@@ -11,13 +11,22 @@ enum LogType {
   NEWLINE = 'NEWLINE',
 }
 
+/**
+ * Provides a series of static functions to verbosely log things to the console.
+ */
 export class Logger {
+  /**
+   * Logs a string to the console including a timestamp and type.
+   *
+   * @param content text to be logged
+   * @param type optional type of log
+   */
   public static log(content: any, type: LogType = LogType.LOG): void {
     const timestamp = `[${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}]`;
 
     switch (type) {
       case LogType.LOG:
-        console.log(`${gray(`${timestamp} [${type}] ${content}`)}`);
+        console.log(gray(`${timestamp} [${type}] ${content}`));
         break;
 
       case LogType.ERROR:
@@ -46,26 +55,56 @@ export class Logger {
     }
   }
 
+  /**
+   * Logs an error to the console including a timestamp.
+   *
+   * @param content string to be logged
+   */
   public static error(content: any): void {
     this.log(content, LogType.ERROR);
   }
 
+  /**
+   * Logs a command invocation to the console including a timestamp.
+   *
+   * @param content string to be logged
+   */
   public static command(content: any): void {
     this.log(content, LogType.COMMAND);
   }
 
+  /**
+   * Logs a warning to the console including a timestamp.
+   *
+   * @param content string to be logged
+   */
   public static warn(content: any): void {
     this.log(content, LogType.WARNING);
   }
 
+  /**
+   * Logs a debug value to the console including a timestamp.
+   *
+   * @param content string to be logged
+   */
   public static debug(content: any): void {
     this.log(content, LogType.DEBUG);
   }
 
+  /**
+   * Logs a notification to the console including a timestamp.
+   *
+   * @param content string to be logged
+   */
   public static notify(content: any): void {
     this.log(content, LogType.NOTIFICATION);
   }
 
+  /**
+   * Logs a newline character (`\n`) to the console.
+   *
+   * @param content string to be logged
+   */
   public static newLine(content: any): void {
     this.log(content, LogType.NEWLINE);
   }

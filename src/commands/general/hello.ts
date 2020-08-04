@@ -7,11 +7,10 @@ export default class Ping extends Command {
     super('hello', {
       // All unique greeting strings
       aliases: Array.from(new Set(greetings.greetings.map((s) => s.split('  ')[1].toLowerCase()))),
-      category: 'general',
+      category: 'General',
       description: {
         content: 'Say hello!',
         usage: 'synus hello',
-        examples: ['synus hello'],
       },
     });
   }
@@ -20,6 +19,11 @@ export default class Ping extends Command {
     message.channel.send(greetings.greetings[this.randomInt(greetings.greetings.length)]);
   }
 
+  /**
+   * Generates a random integer between 0 (inclusive) and `max` (exclusive).
+   *
+   * @param max exclusive maximum
+   */
   private randomInt(max: number): number {
     return Math.floor(Math.random() * Math.floor(max));
   }

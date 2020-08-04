@@ -8,11 +8,10 @@ export default class Ping extends Command {
   public constructor() {
     super('ping', {
       aliases: ['ping'],
-      category: 'general',
+      category: 'General',
       description: {
         content: 'Pings the bot and measures the latencies.',
         usage: 'synus ping',
-        examples: ['synus ping'],
       },
     });
   }

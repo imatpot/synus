@@ -5,11 +5,10 @@ export default class Echo extends Command {
   public constructor() {
     super('echo', {
       aliases: ['echo', 'say'],
-      category: 'general',
+      category: 'General',
       description: {
         content: "I'll repeat after you.",
-        usage: 'synus echo [text]',
-        examples: ['synus echo hello'],
+        usage: 'synus echo [ text:string ]',
       },
     });
   }

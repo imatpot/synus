@@ -1,3 +1,4 @@
+import { BotUtils } from '@util/bot-utils';
 import { Logger } from '@util/logger';
 import { Listener } from 'discord-akairo';
 import { Message } from 'discord.js';
@@ -12,50 +13,38 @@ export default class MessageEvent extends Listener {
 
   public exec(message: Message): void {
     // Only contains prefix and no command
-    if (this.isBotPrefix(message.content.trim())) {
+    if (BotUtils.isBotPrefix(this.client, message.content.trim())) {
       message.channel.send('Ready to help! Type `synus help` to get started.');
       return;
     }
 
-    const splitMessage: string[] = message.content.split(' ');
-    const prefix: string = splitMessage.shift();
+    const splitMessage = message.content.split(' ');
+    const prefix = splitMessage.shift();
 
-    if (this.isBotPrefix(prefix)) {
-      const command: string = splitMessage.shift();
+    if (BotUtils.isBotPrefix(this.client, prefix)) {
+      const command = splitMessage.shift();
 
       if (command) {
-        const args: string = splitMessage.join(' ');
+        const args = splitMessage.join(' ');
 
-        if (!this.client.commandHandler.findCommand(command)) {
+        if (!BotUtils.hasCommand(this.client, command)) {
           message.channel.send(`Command \`${command}\` doesn't exist.`);
           Logger.command(
-            `${message.author.tag} tried running ${command.toUpperCase()} ${
-              args ? `with args [ ${args} ]` : ''
+            `${message.author.tag} tried running ${command.toUpperCase()}${
+              args ? ` with args [ ${args} ]` : ''
             } in ${message.guild.name} (${message.guild.id})`
           );
           return;
         }
 
         Logger.command(
-          `${message.author.tag} ran ${command.toUpperCase()} ${
-            args ? `with args [ ${args} ]` : ''
-          } in ${message.guild.name} (${message.guild.id})`
+          `${message.author.tag} ran ${this.client.commandHandler
+            .findCommand(command)
+            .id.toUpperCase()}${args ? ` with args [ ${args} ]` : ''} in ${message.guild.name} (${
+            message.guild.id
+          })`
         );
       }
     }
-  }
-
-  private isBotPrefix(prefix: string): boolean {
-    // If prefix is a simple string, match exact
-    const messageMatchesPrefixString: boolean =
-      typeof this.client.commandHandler.prefix === 'string' &&
-      this.client.commandHandler.prefix === prefix + ' ';
-
-    // If prefix is a string array, match any element
-    const messageMatchesPrefixArray: boolean =
-      typeof this.client.commandHandler.prefix === 'object' &&
-      this.client.commandHandler.prefix.includes(prefix + ' ');
-
-    return messageMatchesPrefixString || messageMatchesPrefixArray;
   }
 }

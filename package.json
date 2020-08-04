@@ -42,8 +42,8 @@
   },
   "_moduleAliases": {
     "@src": "dist",
-    "@client": "dist/client",
     "@commands": "dist/commands",
+    "@data": "dist/data",
     "@events": "dist/events",
     "@util": "dist/util"
   }

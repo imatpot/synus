@@ -4,44 +4,38 @@ import { Command } from 'discord-akairo';
 import { GuildMember, ImageSize, Message, MessageEmbed } from 'discord.js';
 
 export default class Avatar extends Command {
+  /**
+   * Avatar sizes allowed by the Discord.js API
+   */
   private imageSizes = [16, 32, 64, 128, 256, 512, 1024, 2048];
 
   public constructor() {
     super('avatar', {
       aliases: ['avatar'],
-      category: 'general',
+      category: 'General',
       description: {
-        content: 'avatar',
-        usage: 'avatar [member] (-s)',
-        examples: [
-          'avatar',
-          'avatar @target#0001',
-          'avatar target',
-          'avatar target -s 64',
-          'avatar target --size 12',
-        ],
+        content: 'Fetches the avatar / profile picture of a given user.',
+        usage: "synus avatar [ user:member = 'yourself' ] [ -s size:int = 2048 ]",
       },
       args: [
         {
-          id: 'member',
+          id: 'user',
           type: 'member',
           match: 'rest',
           default: (message: Message) => message.member,
         },
         {
           id: 'size',
-          type: (_: Message, value: string): null | number =>
-            isNaN(Number(value)) ? null : Number(value),
+          type: 'integer',
           match: 'option',
-          flag: ['--size ', '-s '],
+          flag: ['-s '],
+          default: 2048,
         },
       ],
     });
   }
 
-  public exec(message: Message, args: { member: GuildMember; size: number }): void {
-    if (!args.size) args.size = 2048;
-
+  public exec(message: Message, args: { user: GuildMember; size: number }): void {
     if (!this.imageSizes.includes(args.size)) {
       message.channel.send(
         `Size must be element of ${TextFormatter.monospace(`[ ${this.imageSizes.join(', ')} ]`)}`
@@ -51,11 +45,11 @@ export default class Avatar extends Command {
 
     message.channel.send(
       new MessageEmbed()
-        .setTitle(`Avatar of ${args.member.user.tag}`)
+        .setTitle(`Avatar of ${args.user.user.tag}`)
         .setColor('RANDOM')
-        .setImage(args.member.user.displayAvatarURL({ size: args.size as ImageSize }))
+        .setImage(args.user.user.displayAvatarURL({ size: args.size as ImageSize }))
     );
 
-    Logger.log(`Fetched avatar of ${args.member.user.tag}`);
+    Logger.log(`Fetched avatar of ${args.user.user.tag}`);
   }
 }
