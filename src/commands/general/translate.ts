@@ -28,7 +28,7 @@ export default class Translate extends Command {
       category: 'General',
       description: {
         content:
-          'Translate a given string or a target message. Queries are prioritized over messages.',
+          'Translate a given query or a target message. Queries are prioritized over messages.',
         usage:
           "synus translate [ from:string = 'auto' ] [ to:string = 'en' ] [ query:string ] [ -m message:int = 1 ]",
       },
