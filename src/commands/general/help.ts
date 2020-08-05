@@ -71,6 +71,8 @@ export default class Help extends Command {
 
       part = TextFormatter.codeBlock(part, 'apache');
 
+
+
       // Stay inside Discord message length limit
       if ((output + part).length > 2000) {
         message.channel.send(output);
@@ -78,14 +80,6 @@ export default class Help extends Command {
       } else {
         output += part;
       }
-    }
-
-    // Stay inside Discord message length limit
-    if ((output + part).length > 2000) {
-      message.channel.send(output);
-      output = part;
-    } else {
-      output += part;
     }
 
     message.channel.send(output);

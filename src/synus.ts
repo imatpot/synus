@@ -1,5 +1,6 @@
 import { Logger } from '@util/logger';
 import { AkairoClient, CommandHandler, ListenerHandler } from 'discord-akairo';
+import { DMChannel, Message, NewsChannel, TextChannel } from 'discord.js';
 import { join } from 'path';
 import { OWNERS, PREFIXES } from './config';
 
@@ -12,6 +13,10 @@ declare module 'discord-akairo' {
 
     isBotPrefix(prefix: string): boolean;
     hasCommand(command: string): boolean;
+    messageFromChannel(
+      channel: TextChannel | DMChannel | NewsChannel,
+      index: number
+    ): Promise<Message>;
   }
 }
 
@@ -94,5 +99,15 @@ export class Synus extends AkairoClient {
    */
   public hasCommand(command: string): boolean {
     return this.commandHandler.findCommand(command) !== undefined;
+  }
+
+  public async messageFromChannel(
+    channel: TextChannel | DMChannel | NewsChannel,
+    index: number
+  ): Promise<Message> {
+    if (index < 1) return null;
+    const messageMap = await channel.messages.fetch({ limit: index + 1 });
+    const messages = Array.from(messageMap.values()).sort((m) => m.createdTimestamp);
+    return messages.pop();
   }
 }

@@ -27,7 +27,8 @@ export default class Translate extends Command {
       aliases: ['translate', 'trans', 'tr', 't'],
       category: 'General',
       description: {
-        content: 'Translate a given string or a target message.',
+        content:
+          'Translate a given string or a target message. Queries are prioritized over messages.',
         usage:
           "synus translate [ from:string = 'auto' ] [ to:string = 'en' ] [ query:string ] [ -m message:int = 1 ]",
       },
@@ -119,7 +120,9 @@ export default class Translate extends Command {
         }
 
         message.channel.send(response);
-        Logger.log(`Translated "${args.query}" to "${translation.text}"`);
+        Logger.log(
+          `Translated ${requestedSourceLanguage} "${args.query}" to ${targetLanguage} "${translation.text}"`
+        );
       }
     } catch (error) {
       message.channel.send('Yikes, something went wrong. Try running `synus translate` again.');
@@ -160,9 +163,7 @@ export default class Translate extends Command {
       message: number;
     }
   ): Promise<Translation> {
-    const messageMap = await message.channel.messages.fetch({ limit: args.message + 1 });
-    const messages = Array.from(messageMap.values()).sort((m) => m.createdTimestamp);
-    args.query = messages.pop().content;
+    args.query = (await this.client.messageFromChannel(message.channel, args.message)).content;
 
     if (!args.query.trim()) {
       message.channel.send("Sorry, I can't translate that message.");

@@ -28,9 +28,8 @@ export default class Abbreviate extends Command {
       return;
     }
 
-    const messageMap = await message.channel.messages.fetch({ limit: args.message + 1 });
-    const messages = Array.from(messageMap.values()).sort((m) => m.createdTimestamp);
-    const targetMessage = messages.pop().content;
+    const targetMessage = (await this.client.messageFromChannel(message.channel, args.message))
+      .content;
 
     if (!targetMessage.trim()) {
       message.channel.send("Sorry, I can't abbreviate that message.");
