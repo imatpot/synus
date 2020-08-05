@@ -48,8 +48,11 @@ export default class Help extends Command {
       }
     }
 
+    // Add tip
+    let output = TextFormatter.codeBlock('synus help [ command:string ]', 'cs');
+
     // Display prefixes
-    let output = TextFormatter.codeBlock(
+    output += TextFormatter.codeBlock(
       'PREFIXES'.padEnd(firstColumnWidth) + this.client.prefixArray.map((p) => p.trim()).join(', '),
       'apache'
     );
@@ -76,12 +79,6 @@ export default class Help extends Command {
         output += part;
       }
     }
-
-    // Add tip
-    part = TextFormatter.codeBlock(
-      'TIP'.padEnd(firstColumnWidth) + 'For details, type synus help [ command:string ]',
-      'apache'
-    );
 
     // Stay inside Discord message length limit
     if ((output + part).length > 2000) {
@@ -118,13 +115,14 @@ export default class Help extends Command {
 
     let response = '';
 
-    response += commandObject.id.toUpperCase() + '\n\n';
-
     response += `Category      ${commandObject.categoryID}\n`;
     response += `Aliases       ${commandObject.aliases.join(', ')}\n`;
-    response += `Description   ${commandObject.description.content}\n\n`;
-    response += `Usage         ${commandObject.description.usage}`;
+    response += `Description   ${commandObject.description.content}`;
 
-    message.channel.send(TextFormatter.codeBlock(response, 'apache'));
+    response =
+      TextFormatter.codeBlock(commandObject.description.usage, 'cs') +
+      TextFormatter.codeBlock(response, 'apache');
+
+    message.channel.send(response);
   }
 }

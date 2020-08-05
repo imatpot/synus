@@ -5,6 +5,7 @@ import { OWNERS, PREFIXES } from './config';
 
 declare module 'discord-akairo' {
   interface AkairoClient {
+    config: Config;
     commandHandler: CommandHandler;
     listenerHandler: ListenerHandler;
     prefixArray: string[];
@@ -20,8 +21,6 @@ interface Config {
 }
 
 export class Synus extends AkairoClient {
-  public config: Config;
-
   public listenerHandler: ListenerHandler = new ListenerHandler(this, {
     directory: join(__dirname, 'events'),
   });

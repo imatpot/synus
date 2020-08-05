@@ -12,20 +12,14 @@ To work properly, Synus requires API keys.
 Make sure you get your hands on at least one key for each item in this table list before trying
 to do anything with the bot itself.
 
-| API key / token | Where?                                                                       | Why?                                                                                                                                                                |
-|-----------------|------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html).||are neat |
+| API key / token | Where?                                                                       | Why?                                                                                                                                                      |
+|-----------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Bot user token  | [Discord developer console](https://discordapp.com/developers/applications/) | Your bot's gonna need an user to log into Discord.<br>Set up an user like [this](https://discordjs.guide/preparations/setting-up-a-bot-application.html). |
 
 ## Bot config
 
 In `src/` you will find a file called [`config-sample.ts`](../src/config-sample.ts) which contains several config variables. Fill in your details and save the file as `config.ts`
 r the list of the required environment variables.
-
-| Variable name | Expected value                                                                   |
-|---------------|----------------------------------------------------------------------------------|
-| DISCORD_TOKEN | Your bot user token. More info in [this section](#API-keys-&-tokens).            |
-| PREFIXES      | An array of prefixes for your bot. Use these to invoke commands.                 |
-| OWNERS        | The ID of any Discord users you want to have access to some owner-only commands. |
 
 ## Custom emoji
 

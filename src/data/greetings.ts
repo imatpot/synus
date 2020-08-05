@@ -1,5 +1,9 @@
 import { emojis } from './emojis';
 
+/**
+ * An extensive list of greetings in numerous languages including a flag of the
+ * country it's spoken in.
+ */
 export const greetings = {
   greetings: [
     ':flag_af:  Khe chare',

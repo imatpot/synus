@@ -9,11 +9,11 @@ export default class Abbreviate extends Command {
       category: 'Humor',
       description: {
         content: 'Abbreviate a previously sent message.',
-        usage: 'synus abbreviate [ target:int = 1 ]',
+        usage: 'synus abbreviate [ message:int = 1 ]',
       },
       args: [
         {
-          id: 'target',
+          id: 'message',
           type: 'integer',
           match: 'rest',
           default: 1,
@@ -22,13 +22,13 @@ export default class Abbreviate extends Command {
     });
   }
 
-  public async exec(message: Message, args: { target: number }): Promise<void> {
-    if (args.target < 1) {
+  public async exec(message: Message, args: { message: number }): Promise<void> {
+    if (args.message < 1) {
       message.channel.send("Sorry, I can't abbreviate that message.");
       return;
     }
 
-    const messageMap = await message.channel.messages.fetch({ limit: args.target + 1 });
+    const messageMap = await message.channel.messages.fetch({ limit: args.message + 1 });
     const messages = Array.from(messageMap.values()).sort((m) => m.createdTimestamp);
     const targetMessage = messages.pop().content;
 

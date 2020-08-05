@@ -1,3 +1,6 @@
+/**
+ * A list of IDs of usable custom emoji.
+ */
 export const emojis = {
   ping: '565320633471467525',
   mavna: '520310830240366602',

@@ -15,7 +15,7 @@ export default class Avatar extends Command {
       category: 'General',
       description: {
         content: 'Fetches the avatar / profile picture of a given user.',
-        usage: "synus avatar [ user:member = 'you' ] [ --size size:int = 2048 ]",
+        usage: "synus avatar [ user:member = 'you' ] [ -s size:int = 2048 ]",
       },
       args: [
         {
@@ -28,7 +28,7 @@ export default class Avatar extends Command {
           id: 'size',
           type: 'integer',
           match: 'option',
-          flag: ['--size '],
+          flag: ['-s '],
           default: 2048,
         },
       ],

@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
+    "@vitalets/google-translate-api": "^3.0.0",
     "chalk": "^4.1.0",
     "date-fns": "^2.15.0",
     "discord-akairo": "^8.0.0",
