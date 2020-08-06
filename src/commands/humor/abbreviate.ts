@@ -25,6 +25,7 @@ export default class Abbreviate extends Command {
   public async exec(message: Message, args: { message: number }): Promise<void> {
     if (args.message < 1) {
       message.channel.send("Sorry, I can't abbreviate that message.");
+      Logger.log(`Invalid message target (${args.message})`);
       return;
     }
 
@@ -33,6 +34,7 @@ export default class Abbreviate extends Command {
 
     if (!targetMessage.trim()) {
       message.channel.send("Sorry, I can't abbreviate that message.");
+      Logger.log('Query is empty');
       return;
     }
 

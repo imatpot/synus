@@ -40,6 +40,7 @@ export default class Avatar extends Command {
       message.channel.send(
         `Size must be element of ${TextFormatter.monospace(`[ ${this.imageSizes.join(', ')} ]`)}`
       );
+      Logger.log(`Illegal image size (${args.size})`);
       return;
     }
 

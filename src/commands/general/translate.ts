@@ -75,12 +75,14 @@ export default class Translate extends Command {
     // Source language is not valid
     if (args.from !== 'auto' && !languageNames[args.from]) {
       message.channel.send(`${args.from.toUpperCase()} is not a valid language code.`);
+      Logger.log(`Illegal language code (${args.from.toUpperCase()})`);
       return;
     }
 
     // Target language is not valid
     if (!languageNames[args.to]) {
       message.channel.send(`${args.to.toUpperCase()} is not a valid ISO language code.`);
+      Logger.log(`Illegal language code (${args.to.toUpperCase()})`);
       return;
     }
 
@@ -90,6 +92,7 @@ export default class Translate extends Command {
     // Invalid message target and no implicit query
     if (args.message < 1 && !args.query) {
       message.channel.send("Sorry, I can't translate that message.");
+      Logger.log(`Invalid message target (${args.message}) and no implicit query`);
       return;
     }
 
@@ -167,6 +170,7 @@ export default class Translate extends Command {
 
     if (!args.query.trim()) {
       message.channel.send("Sorry, I can't translate that message.");
+      Logger.log('Query is empty');
       return;
     }
 

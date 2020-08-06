@@ -1,14 +1,7 @@
 import { Logger } from '@util/logger';
-import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
-
-interface RedditPost {
-  data: {
-    children: {}[];
-  };
-}
 
 export default class Reddit extends Command {
   private validSections = ['new', 'top', 'controversial', 'hot', 'rising'];
@@ -42,13 +35,12 @@ export default class Reddit extends Command {
 
   public async exec(message: Message, args: { subreddit: string; section: string }): Promise<void> {
     if (!this.validSections.includes(args.section)) {
-      message.channel.send(
-        TextFormatter.monospace(args.section) + ' is not a valid section. Defaulting to `new`.'
-      );
-      args.section = 'new';
+      message.channel.send(`Section must be element of [ ${this.validSections.join(', ')} ]`);
+      Logger.log(`Illegal section ${args.section}`);
+      return;
     }
 
-    args.subreddit = args.subreddit.replace(/r\//g, '');
+    args.subreddit = args.subreddit.replace('r/', '');
 
     const post = await fetch(
       `https://api.reddit.com/r/${args.subreddit}/${args.section}.json?sort=new&limit=1`
@@ -58,6 +50,7 @@ export default class Reddit extends Command {
       message.channel.send(
         `Sorry, the subreddit \`r/${args.subreddit}\` has restricted access or doesn't exist.`
       );
+      Logger.log(`Restricted or inexistant subreddit r/${args.subreddit}`);
       return;
     }
 
@@ -99,7 +92,14 @@ export default class Reddit extends Command {
       embed.addField('This post is NSFW', 'I hid it for you, just in case.', true);
     } else {
       embed.setDescription(data.selftext);
-      if (!data.url.includes('v.redd.it')) embed.setImage(data.url);
+      if (
+        data.url.includes('.jpeg') ||
+        data.url.includes('.jpg') ||
+        data.url.includes('.gif') ||
+        data.url.includes('.png')
+      ) {
+        embed.setImage(data.url);
+      }
     }
 
     embed.setTimestamp(data.created_utc * 1000);
