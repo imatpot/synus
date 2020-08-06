@@ -15,7 +15,7 @@ export default class Issue extends Command {
 
   public exec(message: Message): void {
     message.channel.send(
-      'Did I do an oopsie? Report here: https://github.com/mladenbrankovic/synus/issues/new'
+      'Did I do an oopsie? Report here: <https://github.com/mladenbrankovic/synus/issues/new>'
     );
   }
 }
