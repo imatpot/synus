@@ -102,7 +102,10 @@ export default class Translate extends Command {
         : await this.translateMessage(message, args);
 
       if (translation) {
-        const requestedSourceLanguage = languageNames[args.from];
+        const requestedSourceLanguage =
+          args.from === 'auto'
+            ? languageNames[translation.from.language.iso]
+            : languageNames[args.from];
         const detectedSourceLanguage = languageNames[translation.from.language.iso];
         const targetLanguage = languageNames[args.to];
 
