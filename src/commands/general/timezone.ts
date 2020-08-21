@@ -2,7 +2,7 @@ import { Logger } from '@util/logger';
 import { TextFormatter } from '@util/text-formatter';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import { tz } from 'moment-timezone';
+import { DateTime } from 'luxon';
 
 export default class Hello extends Command {
   private timePattern = /(?:[01]?|2(?![4-9]))\d:[0-5]\d/g;
@@ -12,7 +12,7 @@ export default class Hello extends Command {
       aliases: ['timezone', 'tz'],
       category: 'General',
       description: {
-        content: 'Convert times across timezones. Requires 24h format, apologies to the US.',
+        content: 'Convert 24h format times across IANA timezones (e.g. Europe/Oslo).',
         usage: 'synus timezone [ time:string ] [ sourceZone:string ] [ targetZone:string ]',
       },
       args: [
@@ -54,37 +54,54 @@ export default class Hello extends Command {
       return;
     }
 
-    if (
-      !tz
-        .names()
-        .map(zone => zone.toLowerCase())
-        .includes(args.sourceZone.toLowerCase())
-    ) {
+    if (!this.isValidTimeZone(args.sourceZone)) {
       message.channel.send(`${TextFormatter.monospace(args.sourceZone)} is not a valid timezone.`);
       return;
     }
 
-    if (
-      !tz
-        .names()
-        .map(zone => zone.toLowerCase())
-        .includes(args.targetZone.toLowerCase())
-    ) {
+    if (!this.isValidTimeZone(args.targetZone)) {
       message.channel.send(`${TextFormatter.monospace(args.targetZone)} is not a valid timezone.`);
       return;
     }
 
-    const hour = +args.time.split(':')[0];
-    const minute = +args.time.split(':')[1];
-    const now = new Date();
+    const hours = +args.time.split(':')[0];
+    const minutes = +args.time.split(':')[1];
 
-    const helperDate = new Date(now.getFullYear(), now.getMonth(), now.getDay(), hour, minute);
+    const helperDate = new Date();
+    const now = DateTime.utc(
+      helperDate.getFullYear(),
+      helperDate.getMonth(),
+      helperDate.getDay(),
+      hours,
+      minutes
+    );
 
-    const sourceTime = tz(helperDate, args.sourceZone).format('HH:mm z');
-    const targetTime = tz(helperDate, args.targetZone).format('HH:mm z');
+    const sourceZoneTime = DateTime.fromFormat(
+      now.toFormat("yyyy-MM-dd'T'HH:mm:ss ") + args.sourceZone,
+      "yyyy-MM-dd'T'HH:mm:ss z",
+      {
+        setZone: true,
+      }
+    );
 
-    message.channel.send(TextFormatter.monospace(`${sourceTime}  >>  ${targetTime}`));
+    const targetZoneTime = sourceZoneTime.setZone(args.targetZone);
 
-    Logger.log(`Converted ${sourceTime} to ${targetTime}`);
+    if (!sourceZoneTime.isValid || !targetZoneTime.isValid) {
+      message.channel.send('Eek, there was an error converting those time zones.');
+      Logger.error('Source invalidReason >> ' + sourceZoneTime.invalidReason);
+      Logger.error('Target invalidReason >> ' + sourceZoneTime.invalidReason);
+      return;
+    }
+
+    const sourceZoneString = sourceZoneTime.toFormat('HH:mm ZZZZ');
+    const targetZoneString = targetZoneTime.toFormat('HH:mm ZZZZ');
+
+    message.channel.send(TextFormatter.monospace(`${sourceZoneString}  >>  ${targetZoneString}`));
+
+    Logger.log(`Converted ${sourceZoneString} to ${targetZoneString}`);
+  }
+
+  private isValidTimeZone(zone: string) {
+    return DateTime.utc().setZone(zone).isValid;
   }
 }
