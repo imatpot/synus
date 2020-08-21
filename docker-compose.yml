@@ -2,6 +2,7 @@ version: "3"
 
 services:
   synus:
+    image: synus
     build: .
     hostname: synus
     container_name: synus
