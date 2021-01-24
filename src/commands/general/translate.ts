@@ -68,6 +68,8 @@ export default class Translate extends Command {
     message: Message,
     args: { from: string; to: string; query: string; message: number }
   ): Promise<void> {
+    message.channel.send('This command is currently broken and may not work properly!\nPlease check https://github.com/vitalets/google-translate-api/issues/60 for details.');
+
     args.from = args.from.toLocaleLowerCase();
     args.to = args.to.toLocaleLowerCase();
     args.message = Number(args.message);
