@@ -40,13 +40,13 @@ Install dependencies
 ```
 npm i
 ```
-  
+
 Compile files and run bot
 
 ```
 npm start
 ```
-  
+
 Add your bot user to a server and get started with
 
 ```

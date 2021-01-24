@@ -8,7 +8,7 @@ regarding anything missing in this file, make sure to notify me!
 
 ## API keys & tokens
 
-To work properly, Synus requires API keys.  
+To work properly, Synus requires API keys.
 Make sure you get your hands on at least one key for each item in this table list before trying
 to do anything with the bot itself.
 
@@ -18,8 +18,7 @@ to do anything with the bot itself.
 
 ## Bot config
 
-In `src/` you will find a file called [`config-sample.ts`](../src/config-sample.ts) which contains several config variables. Fill in your details and save the file as `config.ts`
-r the list of the required environment variables.
+Place a `.env` file into the root of the project following the values required listed in [`.env.example`](../.env.example)
 
 ## Custom emoji
 
