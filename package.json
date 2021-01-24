@@ -8,7 +8,7 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "build": "tsc",
-    "watch": "nodemon dist/index.js",
+    "watch": "nodemon -e ts --exec 'npm run start'",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
