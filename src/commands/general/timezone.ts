@@ -64,17 +64,19 @@ export default class Hello extends Command {
       return;
     }
 
-    const hours = +args.time.split(':')[0];
-    const minutes = +args.time.split(':')[1];
+    const [ hours, minutes ] = args.time.split(':').map(s => +s);
 
-    const helperDate = new Date();
+    const helperDate = DateTime.utc();
+
     const now = DateTime.utc(
-      helperDate.getFullYear(),
-      helperDate.getMonth(),
-      helperDate.getDay(),
+      helperDate.year,
+      helperDate.month,
+      helperDate.day,
       hours,
-      minutes
+      minutes,
     );
+
+    Logger.debug(now);
 
     const sourceZoneTime = DateTime.fromFormat(
       now.toFormat("yyyy-MM-dd'T'HH:mm:ss ") + args.sourceZone,

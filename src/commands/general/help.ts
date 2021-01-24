@@ -5,7 +5,7 @@ import { Message } from 'discord.js';
 export default class Help extends Command {
   public constructor() {
     super('help', {
-      aliases: ['help', 'h'],
+      aliases: ['help', 'h', 'manual', 'man'],
       category: 'General',
       description: {
         content: 'Shows an overview of commands or details of one specific command.',
