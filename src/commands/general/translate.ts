@@ -1,25 +1,9 @@
 import { languageNames } from '@data/language-names';
 import { Logger } from '@util/logger';
 import { TextFormatter } from '@util/text-formatter';
+import translator, { ITranslateResponse } from '@vitalets/google-translate-api';
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-
-// TODO: Check Repo for Typedef update (https://github.com/vitalets/google-translate-api/pull/51)
-import translator = require('@vitalets/google-translate-api');
-
-/**
- * Translation object (minimal) from `@vitalets/google-translate-api`
- *
- * https://github.com/vitalets/google-translate-api#returns-an-object
- */
-interface Translation {
-  text: string;
-  from: {
-    language: {
-      iso: string;
-    };
-  };
-}
 
 export default class Translate extends Command {
   public constructor() {
@@ -68,8 +52,6 @@ export default class Translate extends Command {
     message: Message,
     args: { from: string; to: string; query: string; message: number }
   ): Promise<void> {
-    message.channel.send('This command is currently broken and may not work properly!\nPlease check https://github.com/vitalets/google-translate-api/issues/60 for details.');
-
     args.from = args.from.toLocaleLowerCase();
     args.to = args.to.toLocaleLowerCase();
     args.message = Number(args.message);
@@ -99,7 +81,7 @@ export default class Translate extends Command {
     }
 
     try {
-      const translation: Translation = args.query
+      const translation: ITranslateResponse = args.query
         ? await this.translateQuery(args)
         : await this.translateMessage(message, args);
 
@@ -142,14 +124,14 @@ export default class Translate extends Command {
    * Translate a given string with details in `args`.
    *
    * @param args Arguments of translation request
-   * @returns Fetched `Translation` object
+   * @returns Fetched `ITranslateResponse` object
    */
   private async translateQuery(args: {
     from: string;
     to: string;
     query: string;
     message: number;
-  }): Promise<Translation> {
+  }): Promise<ITranslateResponse> {
     return await translator(args.query, {
       from: args.from,
       to: args.to,
@@ -160,7 +142,7 @@ export default class Translate extends Command {
    * Find a message in the invoking message's channel using details in `args` and translate it.
    *
    * @param args Arguments of translation request
-   * @returns Fetched `Translation` object
+   * @returns Fetched `ITranslateResponse` object
    */
   private async translateMessage(
     message: Message,
@@ -170,7 +152,7 @@ export default class Translate extends Command {
       query: string;
       message: number;
     }
-  ): Promise<Translation> {
+  ): Promise<ITranslateResponse> {
     args.query = (await this.client.messageFromChannel(message.channel, args.message)).content;
 
     if (!args.query.trim()) {

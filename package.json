@@ -1,6 +1,6 @@
 {
   "name": "synus",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Systematically Yielded, Natively Unobstrusive Sidekick",
   "directories": {
     "doc": "docs"
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/mladenbrankovic/synus#readme",
   "dependencies": {
-    "@vitalets/google-translate-api": "^4.0.0",
+    "@vitalets/google-translate-api": "^5.0.0",
     "chalk": "^4.1.0",
     "date-fns": "^2.16.1",
     "discord-akairo": "^8.1.0",
